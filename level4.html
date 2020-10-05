@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colour Quiz</title>
+
+    <style>
+
+      #button1 {
+        display: none;
+        position: absolute;
+        top: 400px;
+        left: 50%;
+        margin-left: -100px;
+        width: 100px;
+        height: 100px;
+        
+        font-size: 70px;
+        color: rgba(0,0,0,0);
+        text-align: center;
+      }
+
+      #button2 {
+        display: none;
+        position: absolute;
+        top: 400px;
+        left: 450px;
+        width: 100px;
+        height: 100px;
+        
+        font-size: 70px;
+        color: rgba(0,0,0,0);
+        text-align: center;
+      }
+
+      #button3 {
+        display: none;
+        position: absolute;
+        top: 500px;
+        left: 250px;
+        width: 100px;
+        height: 100px;
+        
+        font-size: 70px;
+        color: rgba(0,0,0,0);
+        text-align: center;
+      }
+
+      #button4 {
+        display: none;
+        position: absolute;
+        top: 500px;
+        left: 450px;
+        width: 100px;
+        height: 100px;
+        
+        font-size: 70px;
+        color: rgba(0,0,0,0);
+        text-align: center;
+      }
+
+      #Level4 {
+        display: none;
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        left: 50%;
+        margin-left: -50px;
+        top: 50%;
+        margin-top: -50px;
+      }
+
+      #Level5 {
+        display: none;
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        left: 50%;
+        margin-left: -50px;
+        top: 50%;
+        margin-top: -50px;
+      }
+
+      #START {
+        position: absolute;
+        top: 340px;
+        left: 50%;
+        margin-left: -30px;
+        height: 50px;
+        width: 60px;                 
+      }
+      
+      
+      #红, #黄, #绿, #蓝, #blank, #橙, #灰, #粉, #紫, #黑, #白, #金, #银, #眼, #耳, #鼻, #嘴 {
+        display: none;
+        height: 250px;
+        width: 250px;
+        position: absolute;
+        left: 50%;
+        margin-left: -125px;
+      }
+
+      #ScoreTitle {
+        position: absolute;
+        top: 65px;
+        left: 50%;
+        margin-left: -100px;
+        height: 50px;
+        width: 60px;
+        font-size: 20px;
+      }
+
+      #question {
+        position: absolute;
+        top: 65px;
+        left: 50%;
+        margin-left: 20px;
+        height: 50px;
+        width: 60px;
+        font-size: 20px;
+      }
+
+      #OutOf {
+        position: absolute;
+        top: 72px;
+        left: 50%;
+        margin-left: -14px;
+        height: 50px;
+        width: 60px;
+        font-size: 10px;
+      }
+
+      #score {
+        position: absolute;
+        top: 65px;
+        left: 50%;
+        margin-left: -34px;
+        height: 50px;
+        width: 60px;
+        font-size: 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+    </style>
+
+</head>
+<body>
+    
+<html>
+
+<h1 id="Title">Colour Quiz: Level 4</h1>
+
+<img id="blank" src=blank.png ></img>
+
+<img id="红" src=红.png ></img>
+
+<img id="黄" src=黄.png ></img>
+
+<img id="绿" src=绿.png ></img>
+
+<img id="蓝" src=蓝.png ></img>
+
+<img id="橙" src=橙.png ></img>
+
+<img id="灰" src=灰.png ></img>
+
+<img id="粉" src=粉.png ></img>
+
+<img id="紫" src=紫.png ></img>
+
+<img id="黑" src=黑.png ></img>
+
+<img id="白" src=白.png ></img>
+
+<img id="金" src=金.png ></img>
+
+<img id="银" src=银.png ></img>
+
+<img id="眼" src=眼.png ></img>
+
+<img id="耳" src=耳.png ></img>
+
+<img id="鼻" src=鼻.png ></img>
+
+<img id="嘴" src=嘴.png ></img>
+
+
+  
+           <button type="button" id="button1" value="plus" onclick="marginLeft();myfunction2();myfunctionA();updateAmount(this.value)">o</button> 
+
+           <button type="button" id="button2" value="minus" onclick="myfunction2();myfunctionB();updateAmount(this.value)">o</button>
+
+           <button type="button" id="button3" value="minus" onclick="myfunction2();myfunctionC();updateAmount(this.value)">o</button>
+
+           <button type="button" id="button4" value="minus" onclick="myfunction2();myfunctionD();updateAmount(this.value)">o</button>
+
+
+           <button type="button" id="START" value="plus" onclick="myfunct();myfunction1();Level();Level1();updateAmount1(this.value)">START</button>
+
+           
+
+           <button type="button" id="Level5" onclick="document.location='level5.html'">Level 5</button>
+
+           <button type="button" id="Level4" onclick="document.location='level4.html'">Level 4</button>
+
+           <span id="ScoreTitle">Score:</span>
+
+           <span id="OutOf">out of</span>
+
+           <span id="score">0</span>
+
+           <span id="question">0</span>
+
+   <script>
+
+          
+
+var color = ["red1", "yellow1", "green1", "blue1", "red2", "yellow2", "green2", "blue2", "red3", "yellow3", "green3", "blue3", "red4", "yellow4", "green4", "blue4"];
+
+document.getElementById("START").addEventListener("click", function() {
+start();
+});
+
+function start() {
+    var a = color.splice(Math.floor(Math.random()*color.length),1)[0];
+}
+     
+     function updateAmount(value){ 
+    var num = parseInt(document.getElementById('score').innerHTML);
+     value=='plus'?num++:num--;
+     document.getElementById('score').innerHTML = num;
+     }
+
+     function updateAmount1(value){ 
+    var num1 = parseInt(document.getElementById('question').innerHTML);
+     value=='plus'?num1++:num1--;
+     document.getElementById('question').innerHTML = num1;
+     }
+
+     function marginLeft() {
+      var scoreValue = document.getElementById("score").innerHTML;
+
+      if (scoreValue >= 9) {
+        document.getElementById("score").style.marginLeft = "-40px";
+        document.getElementById("question").style.marginLeft = "16px";
+      }}
+
+     function Level(){
+      var scoreValue = document.getElementById("score").innerHTML;
+      
+     if (scoreValue >= 12) {
+      document.getElementById("button1").style.display = "none";
+      document.getElementById("button2").style.display = "none";
+      document.getElementById("button3").style.display = "none";
+      document.getElementById("button4").style.display = "none";
+      document.getElementById("blank").style.display = "none"
+      document.getElementById("黑").style.display = "none"
+      document.getElementById("白").style.display = "none"
+      document.getElementById("金").style.display = "none"
+      document.getElementById("银").style.display = "none"
+      document.getElementById("橙").style.display = "none"
+      document.getElementById("灰").style.display = "none"
+      document.getElementById("粉").style.display = "none"
+      document.getElementById("紫").style.display = "none"
+      document.getElementById("红").style.display = "none"
+      document.getElementById("黄").style.display = "none"
+      document.getElementById("绿").style.display = "none"
+      document.getElementById("蓝").style.display = "none"
+      document.getElementById("眼").style.display = "none"
+      document.getElementById("耳").style.display = "none"
+      document.getElementById("鼻").style.display = "none"
+      document.getElementById("嘴").style.display = "none"
+      document.getElementById("START").style.display = "none";
+      
+      document.getElementById("score").style.display = "none";
+      document.getElementById("ScoreTitle").style.display = "none";
+      document.getElementById("OutOf").style.display = "none";
+      document.getElementById("question").style.display = "none";
+      document.getElementById("Title").style.display = "none";
+      document.getElementById("Level4").style.display = "none";
+      document.getElementById("Level5").style.display = "block";
+      
+      alert ('You have reached level 5.');
+      }
+      
+      else if (scoreValue >= 9) {
+        document.getElementById("question").style.marginLeft = "16px";
+      }
+
+      else if (scoreValue <= -2) {
+      document.getElementById("button1").style.display = "none";
+      document.getElementById("button2").style.display = "none";
+      document.getElementById("button3").style.display = "none";
+      document.getElementById("button4").style.display = "none";
+      document.getElementById("blank").style.display = "none"
+      document.getElementById("黑").style.display = "none"
+      document.getElementById("白").style.display = "none"
+      document.getElementById("金").style.display = "none"
+      document.getElementById("银").style.display = "none"
+      document.getElementById("橙").style.display = "none"
+      document.getElementById("灰").style.display = "none"
+      document.getElementById("粉").style.display = "none"
+      document.getElementById("紫").style.display = "none"
+      document.getElementById("红").style.display = "none"
+      document.getElementById("黄").style.display = "none"
+      document.getElementById("绿").style.display = "none"
+      document.getElementById("蓝").style.display = "none"
+      document.getElementById("眼").style.display = "none"
+      document.getElementById("耳").style.display = "none"
+      document.getElementById("鼻").style.display = "none"
+      document.getElementById("嘴").style.display = "none"
+      document.getElementById("START").style.display = "none";
+      
+      document.getElementById("score").style.display = "none";
+      document.getElementById("ScoreTitle").style.display = "none";
+      document.getElementById("OutOf").style.display = "none";
+      document.getElementById("question").style.display = "none";
+      document.getElementById("Title").style.display = "none";
+      document.getElementById("Level4").style.display = "block";
+      document.getElementById("Level5").style.display = "none";
+      alert ('Oops, please try again.');}}
+
+      
+     function Level1(){
+      var questionNumber = document.getElementById("question").innerHTML;
+
+      if (questionNumber >= 13) {
+      document.getElementById("button1").style.display = "none";
+      document.getElementById("button2").style.display = "none";
+      document.getElementById("button3").style.display = "none";
+      document.getElementById("button4").style.display = "none";
+      document.getElementById("blank").style.display = "none"
+      document.getElementById("黑").style.display = "none"
+      document.getElementById("白").style.display = "none"
+      document.getElementById("金").style.display = "none"
+      document.getElementById("银").style.display = "none"
+      document.getElementById("橙").style.display = "none"
+      document.getElementById("灰").style.display = "none"
+      document.getElementById("粉").style.display = "none"
+      document.getElementById("紫").style.display = "none"
+      document.getElementById("红").style.display = "none"
+      document.getElementById("黄").style.display = "none"
+      document.getElementById("绿").style.display = "none"
+      document.getElementById("蓝").style.display = "none"
+      document.getElementById("眼").style.display = "none"
+      document.getElementById("耳").style.display = "none"
+      document.getElementById("鼻").style.display = "none"
+      document.getElementById("嘴").style.display = "none"
+      document.getElementById("START").style.display = "none";
+      
+      document.getElementById("score").style.display = "none";
+      document.getElementById("ScoreTitle").style.display = "none";
+      document.getElementById("OutOf").style.display = "none";
+      document.getElementById("question").style.display = "none";
+      document.getElementById("Title").style.display = "none";
+      document.getElementById("Level4").style.display = "block";
+      document.getElementById("Level5").style.display = "none";
+      alert ('You need a score of 12 out of 12 to move to Level 5. Please try again.');}
+     }
+
+
+function myfunctionA() {
+document.getElementById("button1").style.boxShadow = "0px 0px 5px black";
+document.getElementById("button1").style.borderRadius = "10px";
+document.getElementById("button1").style.borderWidth = "3px";
+
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+function myfunctionB() {
+document.getElementById("button2").style.boxShadow = "0px 0px 5px black";
+document.getElementById("button2").style.borderRadius = "10px";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+function myfunctionC() {
+document.getElementById("button3").style.boxShadow = "0px 0px 5px black";
+document.getElementById("button3").style.borderRadius = "10px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+function myfunctionD() {
+document.getElementById("button4").style.boxShadow = "0px 0px 5px black";
+document.getElementById("button4").style.borderRadius = "10px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+}
+
+function myfunct() {
+document.getElementById("button1").disabled = false;
+document.getElementById("button2").disabled = false;
+document.getElementById("button3").disabled = false;
+document.getElementById("button4").disabled = false;
+document.getElementById("button1").style.display = "none"
+document.getElementById("button2").style.display = "none"
+document.getElementById("button3").style.display = "none"
+document.getElementById("button4").style.display = "none"
+document.getElementById("blank").style.display = "block"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "none"
+}
+
+
+function myfunction2() {
+document.getElementById("button1").disabled = true;
+document.getElementById("button2").disabled = true;
+document.getElementById("button3").disabled = true;
+document.getElementById("button4").disabled = true;
+document.getElementById("button1").innerHTML = "✓";
+document.getElementById("button2").innerHTML = "✖";
+document.getElementById("button3").innerHTML = "✖";
+document.getElementById("button4").innerHTML = "✖";
+document.getElementById("button1").style.color = " rgba(128,128,128,0.9)";
+document.getElementById("button2").style.color = " rgba(128,128,128,0.9)";
+document.getElementById("button3").style.color = " rgba(128,128,128,0.9)";
+document.getElementById("button4").style.color = " rgba(128,128,128,0.9)";
+}
+
+
+function start() {
+    a = color.splice(Math.floor(Math.random()*color.length),1)[0];
+}
+     
+function myfunction1() {
+
+if (a=="red1"){
+document.getElementById("button1").disabled = false;
+document.getElementById("button2").disabled = false;
+document.getElementById("button3").disabled = false;
+document.getElementById("button4").disabled = false;
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👀.png')";
+document.getElementById("button2").style.backgroundImage = "url('👂.png')";
+document.getElementById("button3").style.backgroundImage = "url('👃.png')";
+document.getElementById("button4").style.backgroundImage = "url('👄.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "400px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "-150px";
+document.getElementById("button2").style.top = "400px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "10px";
+document.getElementById("button3").style.top = "517.5px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "-150px";
+document.getElementById("button4").style.top = "517.5px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "10px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "block"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="red2"){
+document.getElementById("button1").style.display = "inline";
+document.getElementById("button2").style.display = "inline";
+document.getElementById("button3").style.display = "inline";
+document.getElementById("button4").style.display = "inline";
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👀.png')";
+document.getElementById("button2").style.backgroundImage = "url('👂.png')";
+document.getElementById("button3").style.backgroundImage = "url('👃.png')";
+document.getElementById("button4").style.backgroundImage = "url('👄.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "517.5px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "10px";
+document.getElementById("button2").style.top = "400px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "-150px";
+document.getElementById("button3").style.top = "400px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "10px";
+document.getElementById("button4").style.top = "517.5px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "-150px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "block"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="red3"){
+document.getElementById("button1").style.display = "inline";
+document.getElementById("button2").style.display = "inline";
+document.getElementById("button3").style.display = "inline";
+document.getElementById("button4").style.display = "inline";
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👀.png')";
+document.getElementById("button2").style.backgroundImage = "url('👂.png')";
+document.getElementById("button3").style.backgroundImage = "url('👃.png')";
+document.getElementById("button4").style.backgroundImage = "url('👄.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "517.5px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "-150px";
+document.getElementById("button2").style.top = "517.5px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "10px";
+document.getElementById("button3").style.top = "400px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "-150px";
+document.getElementById("button4").style.top = "400px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "10px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "block"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="red4"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👀.png')";
+document.getElementById("button2").style.backgroundImage = "url('👂.png')";
+document.getElementById("button3").style.backgroundImage = "url('👃.png')";
+document.getElementById("button4").style.backgroundImage = "url('👄.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "400px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "10px";
+document.getElementById("button2").style.top = "517.5px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "-150px";
+document.getElementById("button3").style.top = "517.5px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "10px";
+document.getElementById("button4").style.top = "400px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "-150px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "block"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+if (a=="yellow1"){
+document.getElementById("button1").style.display = "inline";
+document.getElementById("button2").style.display = "inline";
+document.getElementById("button3").style.display = "inline";
+document.getElementById("button4").style.display = "inline";
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👂.png')";
+document.getElementById("button2").style.backgroundImage = "url('👃.png')";
+document.getElementById("button3").style.backgroundImage = "url('👄.png')";
+document.getElementById("button4").style.backgroundImage = "url('👀.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "400px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "-150px";
+document.getElementById("button2").style.top = "400px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "10px";
+document.getElementById("button3").style.top = "517.5px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "-150px";
+document.getElementById("button4").style.top = "517.5px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "10px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "block"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="yellow2"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👂.png')";
+document.getElementById("button2").style.backgroundImage = "url('👃.png')";
+document.getElementById("button3").style.backgroundImage = "url('👄.png')";
+document.getElementById("button4").style.backgroundImage = "url('👀.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "517.5px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "10px";
+document.getElementById("button2").style.top = "400px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "-150px";
+document.getElementById("button3").style.top = "400px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "10px";
+document.getElementById("button4").style.top = "517.5px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "-150px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "block"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="yellow3"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👂.png')";
+document.getElementById("button2").style.backgroundImage = "url('👃.png')";
+document.getElementById("button3").style.backgroundImage = "url('👄.png')";
+document.getElementById("button4").style.backgroundImage = "url('👀.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "517.5px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "-150px";
+document.getElementById("button2").style.top = "517.5px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "10px";
+document.getElementById("button3").style.top = "400px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "-150px";
+document.getElementById("button4").style.top = "400px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "10px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "block"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="yellow4"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👂.png')";
+document.getElementById("button2").style.backgroundImage = "url('👃.png')";
+document.getElementById("button3").style.backgroundImage = "url('👄.png')";
+document.getElementById("button4").style.backgroundImage = "url('👀.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "400px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "10px";
+document.getElementById("button2").style.top = "517.5px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "-150px";
+document.getElementById("button3").style.top = "517.5px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "10px";
+document.getElementById("button4").style.top = "400px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "-150px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "block"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+if (a=="green1"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👃.png')";
+document.getElementById("button2").style.backgroundImage = "url('👄.png')";
+document.getElementById("button3").style.backgroundImage = "url('👀.png')";
+document.getElementById("button4").style.backgroundImage = "url('👂.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "400px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "-150px";
+document.getElementById("button2").style.top = "400px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "10px";
+document.getElementById("button3").style.top = "517.5px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "-150px";
+document.getElementById("button4").style.top = "517.5px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "10px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "block"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="green2"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👃.png')";
+document.getElementById("button2").style.backgroundImage = "url('👄.png')";
+document.getElementById("button3").style.backgroundImage = "url('👀.png')";
+document.getElementById("button4").style.backgroundImage = "url('👂.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "517.5px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "10px";
+document.getElementById("button2").style.top = "400px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "-150px";
+document.getElementById("button3").style.top = "400px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "10px";
+document.getElementById("button4").style.top = "517.5px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "-150px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "block"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="green3"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👃.png')";
+document.getElementById("button2").style.backgroundImage = "url('👄.png')";
+document.getElementById("button3").style.backgroundImage = "url('👀.png')";
+document.getElementById("button4").style.backgroundImage = "url('👂.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "517.5px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "-150px";
+document.getElementById("button2").style.top = "517.5px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "10px";
+document.getElementById("button3").style.top = "400px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "-150px";
+document.getElementById("button4").style.top = "400px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "10px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "block"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="green4"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👃.png')";
+document.getElementById("button2").style.backgroundImage = "url('👄.png')";
+document.getElementById("button3").style.backgroundImage = "url('👀.png')";
+document.getElementById("button4").style.backgroundImage = "url('👂.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "400px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "10px";;
+document.getElementById("button2").style.top = "517.5px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "-150px";
+document.getElementById("button3").style.top = "517.5px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "10px";
+document.getElementById("button4").style.top = "400px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "-150px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "block"
+document.getElementById("嘴").style.display = "none"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="blue1"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👄.png')";
+document.getElementById("button2").style.backgroundImage = "url('👀.png')";
+document.getElementById("button3").style.backgroundImage = "url('👂.png')";
+document.getElementById("button4").style.backgroundImage = "url('👃.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "400px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "-150px";
+document.getElementById("button2").style.top = "400px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "10px";
+document.getElementById("button3").style.top = "517.5px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "-150px";
+document.getElementById("button4").style.top = "517.5px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "10px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "block"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="blue2"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👄.png')";
+document.getElementById("button2").style.backgroundImage = "url('👀.png')";
+document.getElementById("button3").style.backgroundImage = "url('👂.png')";
+document.getElementById("button4").style.backgroundImage = "url('👃.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "517.5px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "10px";
+document.getElementById("button2").style.top = "400px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "-150px";
+document.getElementById("button3").style.top = "400px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "10px";
+document.getElementById("button4").style.top = "517.5px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "-150px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "block"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="blue3"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👄.png')";
+document.getElementById("button2").style.backgroundImage = "url('👀.png')";
+document.getElementById("button3").style.backgroundImage = "url('👂.png')";
+document.getElementById("button4").style.backgroundImage = "url('👃.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "517.5px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "-150px";
+document.getElementById("button2").style.top = "517.5px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "10px";
+document.getElementById("button3").style.top = "400px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "-150px";
+document.getElementById("button4").style.top = "400px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "10px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "block"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}
+
+else if (a=="blue4"){
+document.getElementById("button1").style.display = "inline"
+document.getElementById("button2").style.display = "inline"
+document.getElementById("button3").style.display = "inline"
+document.getElementById("button4").style.display = "inline"
+document.getElementById("button1").style.color = " rgba(0,0,0,0)";
+document.getElementById("button2").style.color = " rgba(0,0,0,0)";
+document.getElementById("button3").style.color = " rgba(0,0,0,0)";
+document.getElementById("button4").style.color = " rgba(0,0,0,0)";
+document.getElementById("button1").style.backgroundImage = "url('👄.png')";
+document.getElementById("button2").style.backgroundImage = "url('👀.png')";
+document.getElementById("button3").style.backgroundImage = "url('👂.png')";
+document.getElementById("button4").style.backgroundImage = "url('👃.png')";
+document.getElementById("button1").style.backgroundSize = "80%";
+document.getElementById("button2").style.backgroundSize = "80%";
+document.getElementById("button3").style.backgroundSize = "80%";
+document.getElementById("button4").style.backgroundSize = "80%";
+document.getElementById("button1").style.backgroundRepeat = "no-repeat";
+document.getElementById("button2").style.backgroundRepeat = "no-repeat";
+document.getElementById("button3").style.backgroundRepeat = "no-repeat";
+document.getElementById("button4").style.backgroundRepeat = "no-repeat";
+document.getElementById("button1").style.top = "400px";
+document.getElementById("button1").style.left = "50%";
+document.getElementById("button1").style.marginLeft = "10px";
+document.getElementById("button2").style.top = "517.5px";
+document.getElementById("button2").style.left = "50%";
+document.getElementById("button2").style.marginLeft = "-150px";
+document.getElementById("button3").style.top = "517.5px";
+document.getElementById("button3").style.left = "50%";
+document.getElementById("button3").style.marginLeft = "10px";
+document.getElementById("button4").style.top = "400px";
+document.getElementById("button4").style.left = "50%";
+document.getElementById("button4").style.marginLeft = "-150px";
+document.getElementById("blank").style.display = "none"
+document.getElementById("黑").style.display = "none"
+document.getElementById("白").style.display = "none"
+document.getElementById("金").style.display = "none"
+document.getElementById("银").style.display = "none"
+document.getElementById("橙").style.display = "none"
+document.getElementById("灰").style.display = "none"
+document.getElementById("粉").style.display = "none"
+document.getElementById("紫").style.display = "none"
+document.getElementById("红").style.display = "none"
+document.getElementById("黄").style.display = "none"
+document.getElementById("绿").style.display = "none"
+document.getElementById("蓝").style.display = "none"
+document.getElementById("眼").style.display = "none"
+document.getElementById("耳").style.display = "none"
+document.getElementById("鼻").style.display = "none"
+document.getElementById("嘴").style.display = "block"
+document.getElementById("button1").style.borderWidth ="thin";
+document.getElementById("button1").style.borderColor ="black";
+document.getElementById("button2").style.borderWidth ="thin";
+document.getElementById("button2").style.borderColor ="black";
+document.getElementById("button3").style.borderWidth ="thin";
+document.getElementById("button3").style.borderColor ="black";
+document.getElementById("button4").style.borderWidth ="thin";
+document.getElementById("button4").style.borderColor ="black";
+document.getElementById("button1").style.boxShadow = "none";
+document.getElementById("button1").style.borderRadius = "0px";
+document.getElementById("button2").style.boxShadow = "none";
+document.getElementById("button2").style.borderRadius = "0px";
+document.getElementById("button3").style.boxShadow = "none";
+document.getElementById("button3").style.borderRadius = "0px";
+document.getElementById("button4").style.boxShadow = "none";
+document.getElementById("button4").style.borderRadius = "0px";
+}}
+
+ </script>
+
+ 
+</html>
+
+</body>
+</html>

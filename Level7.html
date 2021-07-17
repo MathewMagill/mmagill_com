@@ -22,7 +22,7 @@
     font-size: 100px;
   }
   
-#Level2 {
+#Level7 {
   background-color: #39b54a;
   border-color: #347C2C;
   color: white;
@@ -113,6 +113,7 @@ html, body {
         margin: 0; 
         height: 100%; 
         overflow: hidden;
+        background-color: rgb(0, 150, 150);
         overscroll-behavior-x: none;}
         
 
@@ -149,7 +150,7 @@ text-align: center;
 color: white;
 text-shadow: -0.5px -0.5px 0 black, 0.5px -0.5px 0 black, -0.5px 0.5px 0 black, 0.5px 0.5px 0 black;
 cursor: pointer;
-background-image: radial-gradient(coral 20%,red,#E41B17,#990012);
+background-color: #000;
 background-size: 120%;
 background-position: -20px -20px;
 animation: box1animation 5s infinite;
@@ -285,7 +286,7 @@ text-align: center;
 color: black;
 text-shadow: -0.5px -0.5px 0 white, 0.5px -0.5px 0 white, -0.5px 0.5px 0 white, 0.5px 0.5px 0 white;
 cursor: pointer;
-background-image: radial-gradient(#FFF380 20%,yellow,#FFD801,#FDD017);
+background-color: #000;
 background-size: 120%;
 background-position: -20px -20px;
 animation: box2animation 5s infinite;
@@ -420,7 +421,7 @@ text-align: center;
 color: white;
 text-shadow: -0.5px -0.5px 0 black, 0.5px -0.5px 0 black, -0.5px 0.5px 0 black, 0.5px 0.5px 0 black;
 cursor: pointer;
-background-image: radial-gradient(#4CC417 20%,#347C2C,green,#254117);
+background-color: #000;
 background-size: 120%;
 background-position: -20px -20px;
 animation: box3animation 5s infinite;
@@ -555,10 +556,9 @@ text-align: center;
 color: white;
 text-shadow: -0.5px -0.5px 0 black, 0.5px -0.5px 0 black, -0.5px 0.5px 0 black, 0.5px 0.5px 0 black;
 cursor: pointer;
-background-image: radial-gradient(#1569C7 20%,blue,#0020C2,#0000A0);
-background-size: 120%;
-background-position: -20px -20px;
-animation: box4animation 5s infinite;
+background-color: #000;
+
+
 }
 
 @keyframes box4animation {
@@ -687,13 +687,13 @@ animation: box4animation 5s infinite;
 <body>
 
   <h1 id="prompt"></h1>
-  <button onclick="location.href='Level2.html'" id="Level2">Level 2</button>
+  <button onclick="location.href='Level7.html'"  id="Level7">Level 7</button>
 
   <img id="TurnLandscape" src="TurnLandscape.png" alt="TurnLandscape" visibility="hidden">
   <h1 id="TurnLandscape1">Turn Landscape</h1>
   
   <h2 id="playerscore">Score: </h2>
-  <h2 id="level">Level: 1</h2>
+  <h2 id="level">Level: 6</h2>
 
   <h3 id="box1_status">Position status: </h3>
   <h3 id="box2_status">Position status: </h3>
@@ -708,10 +708,10 @@ animation: box4animation 5s infinite;
   <div style="top: 0px; left: 0px" class="cover" id="cover1"></div>
   
   <div class="container">
-    <div style="top: 400px; left: 100px" class="box" id="box1" onmousemove="MouseMoveBox1a(event),MouseMoveBox1b(event),MouseMoveBox1c(event),MouseMoveBox1d(event)" ontouchmove="TouchMoveBox1a(event),TouchMoveBox1b(event),TouchMoveBox1c(event),TouchMoveBox1d(event)" onmouseup="TouchEndBox1(event)" ontouchend="TouchEndBox1(event)">红</div>
-    <div style="top: 400px; left: 200px" class="box" id="box2" onmousemove="MouseMoveBox2a(event),MouseMoveBox2b(event),MouseMoveBox2c(event),MouseMoveBox2d(event)" ontouchmove="TouchMoveBox2a(event),TouchMoveBox2b(event),TouchMoveBox2c(event),TouchMoveBox2d(event)" onmouseup="TouchEndBox2(event)" ontouchend="TouchEndBox2(event)">黄</div>
-    <div style="top: 400px; left: 300px" class="box" id="box3" onmousemove="MouseMoveBox3a(event),MouseMoveBox3b(event),MouseMoveBox3c(event),MouseMoveBox3d(event)" ontouchmove="TouchMoveBox3a(event),TouchMoveBox3b(event),TouchMoveBox3c(event),TouchMoveBox3d(event)"  onmouseup="TouchEndBox3(event)" ontouchend="TouchEndBox3(event)">绿</div>
-    <div style="top: 400px; left: 400px" class="box" id="box4" onmousemove="MouseMoveBox4a(event),MouseMoveBox4b(event),MouseMoveBox4c(event),MouseMoveBox4d(event)" ontouchmove="TouchMoveBox4a(event),TouchMoveBox4b(event),TouchMoveBox4c(event),TouchMoveBox4d(event)"  onmouseup="TouchEndBox4(event)" ontouchend="TouchEndBox4(event)">蓝</div>
+    <div style="top: 400px; left: 100px" class="box" id="box1" onmousemove="MouseMoveBox1a(event),MouseMoveBox1b(event),MouseMoveBox1c(event),MouseMoveBox1d(event)" ontouchmove="TouchMoveBox1a(event),TouchMoveBox1b(event),TouchMoveBox1c(event),TouchMoveBox1d(event)" onmouseup="TouchEndBox1(event)" ontouchend="TouchEndBox1(event)">🍎</div>
+    <div style="top: 400px; left: 200px" class="box" id="box2" onmousemove="MouseMoveBox2a(event),MouseMoveBox2b(event),MouseMoveBox2c(event),MouseMoveBox2d(event)" ontouchmove="TouchMoveBox2a(event),TouchMoveBox2b(event),TouchMoveBox2c(event),TouchMoveBox2d(event)" onmouseup="TouchEndBox2(event)" ontouchend="TouchEndBox2(event)">🍌</div>
+    <div style="top: 400px; left: 300px" class="box" id="box3" onmousemove="MouseMoveBox3a(event),MouseMoveBox3b(event),MouseMoveBox3c(event),MouseMoveBox3d(event)" ontouchmove="TouchMoveBox3a(event),TouchMoveBox3b(event),TouchMoveBox3c(event),TouchMoveBox3d(event)"  onmouseup="TouchEndBox3(event)" ontouchend="TouchEndBox3(event)">🍇</div>
+    <div style="top: 400px; left: 400px" class="box" id="box4" onmousemove="MouseMoveBox4a(event),MouseMoveBox4b(event),MouseMoveBox4c(event),MouseMoveBox4d(event)" ontouchmove="TouchMoveBox4a(event),TouchMoveBox4b(event),TouchMoveBox4c(event),TouchMoveBox4d(event)"  onmouseup="TouchEndBox4(event)" ontouchend="TouchEndBox4(event)">🍓</div>
   </div>
   
   <script>
@@ -725,7 +725,7 @@ if (window.safari) {
 var playerscore = document.getElementById("app_status7").value;
 document.getElementById("playerscore").innerHTML = ("Score: " + playerscore);
 
-var set = ['红','蓝','绿','黄'];
+var set = ['苹果','香蕉','葡萄','草莓'];
 
 set.sort(function(a, b){return 0.5 - Math.random()});
 document.getElementById("set_status").innerHTML = set;
@@ -890,7 +890,7 @@ function MouseMoveBox1c(event) {
   h = rect.height;
   document.getElementById('box1_status').innerHTML = ("Left: " + x + ", Top: " + y + ", Width: " + w + ", Height: " + h);
   
-  if (randompick == "红" && x > 930 && x < 940 && y > 200 && y < 230 && score == 0)  {
+  if (randompick == "苹果" && x > 930 && x < 940 && y > 200 && y < 230 && score == 0)  {
   document.getElementById("box1").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -907,7 +907,7 @@ function MouseMoveBox1c(event) {
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "红" && x > 930 && x < 940 && y > 200 && y < 230 && score == 1)  {
+else if (randompick == "苹果" && x > 930 && x < 940 && y > 200 && y < 230 && score == 1)  {
   document.getElementById("box1").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -924,7 +924,7 @@ else if (randompick == "红" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "红" && x > 930 && x < 940 && y > 200 && y < 230 && score == 2)  {
+else if (randompick == "苹果" && x > 930 && x < 940 && y > 200 && y < 230 && score == 2)  {
   document.getElementById("box1").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -941,7 +941,7 @@ else if (randompick == "红" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "红" && x > 930 && x < 940 && y > 200 && y < 230 && score == 3)  {
+else if (randompick == "苹果" && x > 930 && x < 940 && y > 200 && y < 230 && score == 3)  {
   document.getElementById("box1").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -959,9 +959,9 @@ else if (randompick == "红" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level7').style.visibility = "visible";
 }
-else if (set[0] !== "红" && x > 930 && x < 940 && y > 200 && y < 230)  {
+else if (set[0] !== "苹果" && x > 930 && x < 940 && y > 200 && y < 230)  {
   
   document.getElementById("cover1").style.visibility = "visible";
   document.getElementById("box1").style.display = "none";
@@ -1054,7 +1054,7 @@ function TouchMoveBox1d(event) {
   h = rect.height;
   document.getElementById('box1_status').innerHTML = ("Left: " + x + ", Top: " + y + ", Width: " + w + ", Height: " + h);
   
-  if (randompick == "红" && x > 730 && x < 740 && y > 200 && y < 230 && score == 0)  {
+  if (randompick == "苹果" && x > 730 && x < 740 && y > 200 && y < 230 && score == 0)  {
   document.getElementById("box1").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1071,7 +1071,7 @@ function TouchMoveBox1d(event) {
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "红" && x > 730 && x < 740 && y > 200 && y < 230 && score == 1)  {
+else if (randompick == "苹果" && x > 730 && x < 740 && y > 200 && y < 230 && score == 1)  {
   document.getElementById("box1").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1088,7 +1088,7 @@ else if (randompick == "红" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "红" && x > 730 && x < 740 && y > 200 && y < 230 && score == 2)  {
+else if (randompick == "苹果" && x > 730 && x < 740 && y > 200 && y < 230 && score == 2)  {
   document.getElementById("box1").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1105,7 +1105,7 @@ else if (randompick == "红" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "红" && x > 730 && x < 740 && y > 200 && y < 230 && score == 3)  {
+else if (randompick == "苹果" && x > 730 && x < 740 && y > 200 && y < 230 && score == 3)  {
   document.getElementById("box1").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1123,9 +1123,9 @@ else if (randompick == "红" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level7').style.visibility = "visible";
 }
-else if (set[0] !== "红" && x > 730 && x < 740 && y > 200 && y < 230)  {
+else if (set[0] !== "苹果" && x > 730 && x < 740 && y > 200 && y < 230)  {
   
   document.getElementById("cover1").style.visibility = "visible";
   document.getElementById("box1").style.display = "none";
@@ -1233,7 +1233,7 @@ function MouseMoveBox2d(event) {
   w = rect.width;
   h = rect.height;
   document.getElementById('box2_status').innerHTML = ("Left: " + x + ", Top: " + y + ", Width: " + w + ", Height: " + h);
-  if (randompick == "黄" && x > 930 && x < 940 && y > 200 && y < 230 && score == 0)  {
+  if (randompick == "香蕉" && x > 930 && x < 940 && y > 200 && y < 230 && score == 0)  {
   document.getElementById("box2").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1250,7 +1250,7 @@ function MouseMoveBox2d(event) {
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "黄" && x > 930 && x < 940 && y > 200 && y < 230 && score == 1)  {
+else if (randompick == "香蕉" && x > 930 && x < 940 && y > 200 && y < 230 && score == 1)  {
   document.getElementById("box2").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1267,7 +1267,7 @@ else if (randompick == "黄" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "黄" && x > 930 && x < 940 && y > 200 && y < 230 && score == 2)  {
+else if (randompick == "香蕉" && x > 930 && x < 940 && y > 200 && y < 230 && score == 2)  {
   document.getElementById("box2").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1284,7 +1284,7 @@ else if (randompick == "黄" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "黄" && x > 930 && x < 940 && y > 200 && y < 230 && score == 3)  {
+else if (randompick == "香蕉" && x > 930 && x < 940 && y > 200 && y < 230 && score == 3)  {
   document.getElementById("box2").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1302,9 +1302,9 @@ else if (randompick == "黄" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level7').style.visibility = "visible";
 }
-  else if (randompick !== "黄" && x > 930 && x < 940 && y > 200 && y < 230)  {
+  else if (randompick !== "香蕉" && x > 930 && x < 940 && y > 200 && y < 230)  {
   
   document.getElementById("cover1").style.visibility = "visible";
   document.getElementById("box2").style.display = "none";
@@ -1397,7 +1397,7 @@ function TouchMoveBox2d(event) {
   w = rect.width;
   h = rect.height;
   document.getElementById('box2_status').innerHTML = ("Left: " + x + ", Top: " + y + ", Width: " + w + ", Height: " + h);
-  if (randompick == "黄" && x > 730 && x < 740 && y > 200 && y < 230 && score == 0)  {
+  if (randompick == "香蕉" && x > 730 && x < 740 && y > 200 && y < 230 && score == 0)  {
   document.getElementById("box2").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1414,7 +1414,7 @@ function TouchMoveBox2d(event) {
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "黄" && x > 730 && x < 740 && y > 200 && y < 230 && score == 1)  {
+else if (randompick == "香蕉" && x > 730 && x < 740 && y > 200 && y < 230 && score == 1)  {
   document.getElementById("box2").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1431,7 +1431,7 @@ else if (randompick == "黄" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "黄" && x > 730 && x < 740 && y > 200 && y < 230 && score == 2)  {
+else if (randompick == "香蕉" && x > 730 && x < 740 && y > 200 && y < 230 && score == 2)  {
   document.getElementById("box2").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1448,7 +1448,7 @@ else if (randompick == "黄" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "黄" && x > 730 && x < 740 && y > 200 && y < 230 && score == 3)  {
+else if (randompick == "香蕉" && x > 730 && x < 740 && y > 200 && y < 230 && score == 3)  {
   document.getElementById("box2").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1466,9 +1466,9 @@ else if (randompick == "黄" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level7').style.visibility = "visible";
 }
-  else if (randompick !== "黄" && x > 730 && x < 740 && y > 200 && y < 230)  {
+  else if (randompick !== "香蕉" && x > 730 && x < 740 && y > 200 && y < 230)  {
   
   document.getElementById("cover1").style.visibility = "visible";
   document.getElementById("box2").style.display = "none";
@@ -1575,7 +1575,7 @@ function MouseMoveBox3d(event) {
   w = rect.width;
   h = rect.height;
   document.getElementById('box3_status').innerHTML = ("Left: " + x + ", Top: " + y + ", Width: " + w + ", Height: " + h);
-  if (randompick == "绿" && x > 930 && x < 940 && y > 200 && y < 230 && score == 0)  {
+  if (randompick == "葡萄" && x > 930 && x < 940 && y > 200 && y < 230 && score == 0)  {
   document.getElementById("box3").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1592,7 +1592,7 @@ function MouseMoveBox3d(event) {
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "绿" && x > 930 && x < 940 && y > 200 && y < 230 && score == 1)  {
+else if (randompick == "葡萄" && x > 930 && x < 940 && y > 200 && y < 230 && score == 1)  {
   document.getElementById("box3").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1609,7 +1609,7 @@ else if (randompick == "绿" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "绿" && x > 930 && x < 940 && y > 200 && y < 230 && score == 2)  {
+else if (randompick == "葡萄" && x > 930 && x < 940 && y > 200 && y < 230 && score == 2)  {
   document.getElementById("box3").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1626,7 +1626,7 @@ else if (randompick == "绿" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "绿" && x > 930 && x < 940 && y > 200 && y < 230 && score == 3)  {
+else if (randompick == "葡萄" && x > 930 && x < 940 && y > 200 && y < 230 && score == 3)  {
   document.getElementById("box3").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1644,9 +1644,9 @@ else if (randompick == "绿" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level7').style.visibility = "visible";
 }
-  else if (randompick !== "绿" && x > 930 && x < 940 && y > 200 && y < 230)  {
+  else if (randompick !== "葡萄" && x > 930 && x < 940 && y > 200 && y < 230)  {
   
   document.getElementById("cover1").style.visibility = "visible";
   document.getElementById("box3").style.display = "none";
@@ -1739,7 +1739,7 @@ function TouchMoveBox3d(event) {
   w = rect.width;
   h = rect.height;
   document.getElementById('box3_status').innerHTML = ("Left: " + x + ", Top: " + y + ", Width: " + w + ", Height: " + h);
-  if (randompick == "绿" && x > 730 && x < 740 && y > 200 && y < 230 && score == 0)  {
+  if (randompick == "葡萄" && x > 730 && x < 740 && y > 200 && y < 230 && score == 0)  {
   document.getElementById("box3").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1756,7 +1756,7 @@ function TouchMoveBox3d(event) {
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "绿" && x > 730 && x < 740 && y > 200 && y < 230 && score == 1)  {
+else if (randompick == "葡萄" && x > 730 && x < 740 && y > 200 && y < 230 && score == 1)  {
   document.getElementById("box3").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1773,7 +1773,7 @@ else if (randompick == "绿" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "绿" && x > 730 && x < 740 && y > 200 && y < 230 && score == 2)  {
+else if (randompick == "葡萄" && x > 730 && x < 740 && y > 200 && y < 230 && score == 2)  {
   document.getElementById("box3").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1790,7 +1790,7 @@ else if (randompick == "绿" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "绿" && x > 730 && x < 740 && y > 200 && y < 230 && score == 3)  {
+else if (randompick == "葡萄" && x > 730 && x < 740 && y > 200 && y < 230 && score == 3)  {
   document.getElementById("box3").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1808,9 +1808,9 @@ else if (randompick == "绿" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level7').style.visibility = "visible";
 }
-  else if (randompick !== "绿" && x > 730 && x < 740 && y > 200 && y < 230)  {
+  else if (randompick !== "葡萄" && x > 730 && x < 740 && y > 200 && y < 230)  {
   
   document.getElementById("cover1").style.visibility = "visible";
   document.getElementById("box3").style.display = "none";
@@ -1917,7 +1917,7 @@ function MouseMoveBox4d(event) {
   w = rect.width;
   h = rect.height;
   document.getElementById('box4_status').innerHTML = ("Left: " + x + ", Top: " + y + ", Width: " + w + ", Height: " + h);
-  if (randompick == "蓝" && x > 930 && x < 940 && y > 200 && y < 230 && score == 0)  {
+  if (randompick == "草莓" && x > 930 && x < 940 && y > 200 && y < 230 && score == 0)  {
   document.getElementById("box4").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1934,7 +1934,7 @@ function MouseMoveBox4d(event) {
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "蓝" && x > 930 && x < 940 && y > 200 && y < 230 && score == 1)  {
+else if (randompick == "草莓" && x > 930 && x < 940 && y > 200 && y < 230 && score == 1)  {
   document.getElementById("box4").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1951,7 +1951,7 @@ else if (randompick == "蓝" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "蓝" && x > 930 && x < 940 && y > 200 && y < 230 && score == 2)  {
+else if (randompick == "草莓" && x > 930 && x < 940 && y > 200 && y < 230 && score == 2)  {
   document.getElementById("box4").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1968,7 +1968,7 @@ else if (randompick == "蓝" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "蓝" && x > 930 && x < 940 && y > 200 && y < 230 && score == 3)  {
+else if (randompick == "草莓" && x > 930 && x < 940 && y > 200 && y < 230 && score == 3)  {
   document.getElementById("box4").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -1986,9 +1986,9 @@ else if (randompick == "蓝" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level7').style.visibility = "visible";
 }
-  else if (randompick !== "蓝" && x > 930 && x < 940 && y > 200 && y < 230)  {
+  else if (randompick !== "草莓" && x > 930 && x < 940 && y > 200 && y < 230)  {
   
   document.getElementById("cover1").style.visibility = "visible";
   document.getElementById("box4").style.display = "none";
@@ -2081,7 +2081,7 @@ function TouchMoveBox4d(event) {
   w = rect.width;
   h = rect.height;
   document.getElementById('box4_status').innerHTML = ("Left: " + x + ", Top: " + y + ", Width: " + w + ", Height: " + h);
-  if (randompick == "蓝" && x > 730 && x < 740 && y > 200 && y < 230 && score == 0)  {
+  if (randompick == "草莓" && x > 730 && x < 740 && y > 200 && y < 230 && score == 0)  {
   document.getElementById("box4").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -2098,7 +2098,7 @@ function TouchMoveBox4d(event) {
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "蓝" && x > 730 && x < 740 && y > 200 && y < 230 && score == 1)  {
+else if (randompick == "草莓" && x > 730 && x < 740 && y > 200 && y < 230 && score == 1)  {
   document.getElementById("box4").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -2115,7 +2115,7 @@ else if (randompick == "蓝" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "蓝" && x > 730 && x < 740 && y > 200 && y < 230 && score == 2)  {
+else if (randompick == "草莓" && x > 730 && x < 740 && y > 200 && y < 230 && score == 2)  {
   document.getElementById("box4").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -2132,7 +2132,7 @@ else if (randompick == "蓝" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
 }
-else if (randompick == "蓝" && x > 730 && x < 740 && y > 200 && y < 230 && score == 3)  {
+else if (randompick == "草莓" && x > 730 && x < 740 && y > 200 && y < 230 && score == 3)  {
   document.getElementById("box4").style.display = "none";
   newscore=+score +1;
   document.getElementById("app_status7").value = newscore;
@@ -2150,9 +2150,9 @@ else if (randompick == "蓝" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level7').style.visibility = "visible";
 }
-  else if (randompick !== "蓝" && x > 730 && x < 740 && y > 200 && y < 230)  {
+  else if (randompick !== "草莓" && x > 730 && x < 740 && y > 200 && y < 230)  {
   
   document.getElementById("cover1").style.visibility = "visible";
   document.getElementById("box4").style.display = "none";

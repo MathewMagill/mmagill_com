@@ -22,7 +22,7 @@
     font-size: 100px;
   }
   
-#Level2 {
+#Level3 {
   background-color: #39b54a;
   border-color: #347C2C;
   color: white;
@@ -687,13 +687,13 @@ animation: box4animation 5s infinite;
 <body>
 
   <h1 id="prompt"></h1>
-  <button onclick="location.href='Level2.html'" id="Level2">Level 2</button>
+  <button onclick="location.href='Level3.html'"  id="Level3">Level 3</button>
 
   <img id="TurnLandscape" src="TurnLandscape.png" alt="TurnLandscape" visibility="hidden">
   <h1 id="TurnLandscape1">Turn Landscape</h1>
   
   <h2 id="playerscore">Score: </h2>
-  <h2 id="level">Level: 1</h2>
+  <h2 id="level">Level: 2</h2>
 
   <h3 id="box1_status">Position status: </h3>
   <h3 id="box2_status">Position status: </h3>
@@ -708,10 +708,10 @@ animation: box4animation 5s infinite;
   <div style="top: 0px; left: 0px" class="cover" id="cover1"></div>
   
   <div class="container">
-    <div style="top: 400px; left: 100px" class="box" id="box1" onmousemove="MouseMoveBox1a(event),MouseMoveBox1b(event),MouseMoveBox1c(event),MouseMoveBox1d(event)" ontouchmove="TouchMoveBox1a(event),TouchMoveBox1b(event),TouchMoveBox1c(event),TouchMoveBox1d(event)" onmouseup="TouchEndBox1(event)" ontouchend="TouchEndBox1(event)">红</div>
-    <div style="top: 400px; left: 200px" class="box" id="box2" onmousemove="MouseMoveBox2a(event),MouseMoveBox2b(event),MouseMoveBox2c(event),MouseMoveBox2d(event)" ontouchmove="TouchMoveBox2a(event),TouchMoveBox2b(event),TouchMoveBox2c(event),TouchMoveBox2d(event)" onmouseup="TouchEndBox2(event)" ontouchend="TouchEndBox2(event)">黄</div>
-    <div style="top: 400px; left: 300px" class="box" id="box3" onmousemove="MouseMoveBox3a(event),MouseMoveBox3b(event),MouseMoveBox3c(event),MouseMoveBox3d(event)" ontouchmove="TouchMoveBox3a(event),TouchMoveBox3b(event),TouchMoveBox3c(event),TouchMoveBox3d(event)"  onmouseup="TouchEndBox3(event)" ontouchend="TouchEndBox3(event)">绿</div>
-    <div style="top: 400px; left: 400px" class="box" id="box4" onmousemove="MouseMoveBox4a(event),MouseMoveBox4b(event),MouseMoveBox4c(event),MouseMoveBox4d(event)" ontouchmove="TouchMoveBox4a(event),TouchMoveBox4b(event),TouchMoveBox4c(event),TouchMoveBox4d(event)"  onmouseup="TouchEndBox4(event)" ontouchend="TouchEndBox4(event)">蓝</div>
+    <div style="top: 400px; left: 100px" class="box" id="box1" onmousemove="MouseMoveBox1a(event),MouseMoveBox1b(event),MouseMoveBox1c(event),MouseMoveBox1d(event)" ontouchmove="TouchMoveBox1a(event),TouchMoveBox1b(event),TouchMoveBox1c(event),TouchMoveBox1d(event)" onmouseup="TouchEndBox1(event)" ontouchend="TouchEndBox1(event)"></div>
+    <div style="top: 400px; left: 200px" class="box" id="box2" onmousemove="MouseMoveBox2a(event),MouseMoveBox2b(event),MouseMoveBox2c(event),MouseMoveBox2d(event)" ontouchmove="TouchMoveBox2a(event),TouchMoveBox2b(event),TouchMoveBox2c(event),TouchMoveBox2d(event)" onmouseup="TouchEndBox2(event)" ontouchend="TouchEndBox2(event)"></div>
+    <div style="top: 400px; left: 300px" class="box" id="box3" onmousemove="MouseMoveBox3a(event),MouseMoveBox3b(event),MouseMoveBox3c(event),MouseMoveBox3d(event)" ontouchmove="TouchMoveBox3a(event),TouchMoveBox3b(event),TouchMoveBox3c(event),TouchMoveBox3d(event)"  onmouseup="TouchEndBox3(event)" ontouchend="TouchEndBox3(event)"></div>
+    <div style="top: 400px; left: 400px" class="box" id="box4" onmousemove="MouseMoveBox4a(event),MouseMoveBox4b(event),MouseMoveBox4c(event),MouseMoveBox4d(event)" ontouchmove="TouchMoveBox4a(event),TouchMoveBox4b(event),TouchMoveBox4c(event),TouchMoveBox4d(event)"  onmouseup="TouchEndBox4(event)" ontouchend="TouchEndBox4(event)"></div>
   </div>
   
   <script>
@@ -959,7 +959,7 @@ else if (randompick == "红" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level3').style.visibility = "visible";
 }
 else if (set[0] !== "红" && x > 930 && x < 940 && y > 200 && y < 230)  {
   
@@ -1123,7 +1123,7 @@ else if (randompick == "红" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level3').style.visibility = "visible";
 }
 else if (set[0] !== "红" && x > 730 && x < 740 && y > 200 && y < 230)  {
   
@@ -1302,7 +1302,7 @@ else if (randompick == "黄" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level3').style.visibility = "visible";
 }
   else if (randompick !== "黄" && x > 930 && x < 940 && y > 200 && y < 230)  {
   
@@ -1466,7 +1466,7 @@ else if (randompick == "黄" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level3').style.visibility = "visible";
 }
   else if (randompick !== "黄" && x > 730 && x < 740 && y > 200 && y < 230)  {
   
@@ -1644,7 +1644,7 @@ else if (randompick == "绿" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level3').style.visibility = "visible";
 }
   else if (randompick !== "绿" && x > 930 && x < 940 && y > 200 && y < 230)  {
   
@@ -1808,7 +1808,7 @@ else if (randompick == "绿" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level3').style.visibility = "visible";
 }
   else if (randompick !== "绿" && x > 730 && x < 740 && y > 200 && y < 230)  {
   
@@ -1986,7 +1986,7 @@ else if (randompick == "蓝" && x > 930 && x < 940 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level3').style.visibility = "visible";
 }
   else if (randompick !== "蓝" && x > 930 && x < 940 && y > 200 && y < 230)  {
   
@@ -2150,7 +2150,7 @@ else if (randompick == "蓝" && x > 730 && x < 740 && y > 200 && y < 230 && scor
   document.getElementById("Broken_Shell_Background").style.visibility = "visible";
   document.getElementById("Broken_Shell_Foreground").style.visibility = "visible";
   document.getElementById("cover1").style.visibility = "visible";
-  document.getElementById('Level2').style.visibility = "visible";
+  document.getElementById('Level3').style.visibility = "visible";
 }
   else if (randompick !== "蓝" && x > 730 && x < 740 && y > 200 && y < 230)  {
   

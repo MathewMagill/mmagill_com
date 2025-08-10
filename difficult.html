@@ -168,6 +168,8 @@
             }
         ];
 
+        let currentRotation = 0;
+
         function updateQuestionContent() {
             const question = questions[currentQuestionIndex];
             
@@ -179,13 +181,12 @@
 
         function updateCountdown() {
             rotationInfo.textContent = `Next question in: ${secondsRemaining}s`;
-            secondsRemaining--;
             
-            if (secondsRemaining < 0) {
-                // Move to next question
-                currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
-                updateQuestionContent();
-                secondsRemaining = 10;
+            if (secondsRemaining <= 0) {
+                // Move to next question with flip animation when timer reaches 0
+                nextQuestionWithFlip();
+            } else {
+                secondsRemaining--;
             }
         }
 
@@ -195,29 +196,53 @@
             secondsRemaining = 10;
         }
 
+        function nextQuestionWithFlip() {
+            // Stop the countdown during flip animation
+            clearInterval(countdownInterval);
+            
+            // Flip the card to show transition
+            currentRotation += 180;
+            flashcard.style.transform = `rotateY(${currentRotation}deg)`;
+            
+            // After flip animation completes (400ms), update content and flip back
+            setTimeout(() => {
+                currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+                updateQuestionContent();
+                
+                // Flip back to show the new question
+                currentRotation += 180;
+                flashcard.style.transform = `rotateY(${currentRotation}deg)`;
+                
+                // Reset timer and restart countdown after flip completes
+                setTimeout(() => {
+                    secondsRemaining = 10;
+                    countdownInterval = setInterval(updateCountdown, 1000);
+                }, 400);
+            }, 400);
+        }
+
         // Start automatic rotation
         function startAutoRotation() {
             // Initialize with first question
             updateQuestionContent();
-            // Show each question for 10 seconds
-            autoRotateInterval = setInterval(nextQuestion, 10000);
+            // Only use countdown timer - no separate interval for auto rotation
             countdownInterval = setInterval(updateCountdown, 1000);
         }
 
         // Stop automatic rotation
         function stopAutoRotation() {
-            clearInterval(autoRotateInterval);
             clearInterval(countdownInterval);
         }
 
-        // Manual click advances to next question
+        // Manual click advances to next question with flip animation
         flashcard.addEventListener('click', function() {
             stopAutoRotation();
-            nextQuestion();
+            nextQuestionWithFlip();
             // Show manual override message briefly
             rotationInfo.textContent = 'Manual advance - restarting timer...';
             setTimeout(() => {
-                startAutoRotation();
+                secondsRemaining = 10;
+                countdownInterval = setInterval(updateCountdown, 1000);
             }, 1000);
         });
 
@@ -234,7 +259,9 @@
             if (event.code === 'KeyR') {
                 stopAutoRotation();
                 currentQuestionIndex = 0;
+                currentRotation = 0;
                 secondsRemaining = 10;
+                flashcard.style.transform = `rotateY(0deg)`;
                 updateQuestionContent();
                 startAutoRotation();
             }

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuous Rotation Flashcard</title>
+    <style>
+        body {
+            font-family: Calibri, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: white;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            width: 500px;
+            height: 350px;
+        }
+
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease-in-out;
+            cursor: pointer;
+            transform: rotateY(0deg);
+        }
+
+        .flashcard-side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        .flashcard-front {
+            background: white;
+            color: black;
+            transform: rotateY(0deg);
+        }
+
+        .flashcard-back {
+            background: repeating-linear-gradient(
+                45deg,
+                #e8e8e8,
+                #e8e8e8 2px,
+                #d5d5d5 2px,
+                #d5d5d5 4px
+            );
+            color: black;
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-side:hover {
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .instructions {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: black;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .rotation-info {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: black;
+            font-size: 18px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: #ff9800;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #f57c00;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">← Back to Menu</a>
+    
+    <div class="instructions">
+        Write the correct Chinese character for the meaning and pinyin shown below...
+    </div>
+
+    <div class="flashcard-container">
+        <div class="flashcard" id="flashcard">
+            <div class="flashcard-side flashcard-front">
+                <div id="question-content">
+                    <h2 style="font-family: Calibri, Arial, sans-serif; color: black; font-weight: normal; margin-top: 0; margin-bottom: 18px;">Question 1</h2>
+                    <div style="height: 107px; width: 97px; margin: 0 auto 18px auto; border: 2px dashed #cccccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999999; font-size: 14px;">Write the Chinese word.</div>
+                    <p style="font-size: 32px; margin-bottom: 12px; margin-top: 0; font-family: Calibri, Arial, sans-serif; color: black;"><span>Meaning:</span> <span id="question-meaning">"you"</span></p>
+                    <p style="font-size: 28px; color: black; margin-bottom: 0; margin-top: 0; font-family: Calibri, Arial, sans-serif;"><span style="color: black;">Pinyin:</span> <span id="question-pinyin">nǐ</span></p>
+                </div>
+            </div>
+            <div class="flashcard-side flashcard-back">
+                <div id="answer-content">
+                    <h2 style="font-family: Calibri, Arial, sans-serif; color: black; font-weight: normal; margin-top: 0; margin-bottom: 16px;">Answer 1</h2>
+                    <img src="ni.png" alt="你" style="width: 97px; height: 97px; margin-bottom: 22px; margin-top: 0;" id="answer-character">
+                    <p style="font-size: 32px; margin-bottom: 12px; margin-top: 0; font-family: Calibri, Arial, sans-serif; color: black;"><span>Meaning:</span> <span id="answer-meaning">"you"</span></p>
+                    <p style="font-size: 28px; color: black; margin-top: 0; margin-bottom: 0; font-family: Calibri, Arial, sans-serif;"><span style="color: black;">Pinyin:</span> <span id="answer-pinyin">nǐ</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rotation-info" id="rotationInfo">
+        Hint in: 6s
+    </div>
+
+    <script>
+        const flashcard = document.getElementById('flashcard');
+        const rotationInfo = document.getElementById('rotationInfo');
+        let currentRotation = 0;
+        let clickCount = 0;
+        let autoRotateInterval;
+        let countdownInterval;
+        let secondsRemaining = 6;
+        let isShowingAnswer = false;
+        let answerTimeRemaining = 3;
+        let currentQuestionIndex = 0;
+
+        // Question data
+        const questions = [
+            {
+                title: "Question 1",
+                meaning: '"you"',
+                pinyin: 'nǐ',
+                character: '你',
+                answerTitle: "Answer 1",
+                image: "ni.png"
+            },
+            {
+                title: "Question 2",
+                meaning: '"good"',
+                pinyin: 'hǎo',
+                character: '好',
+                answerTitle: "Answer 2",
+                image: "hao.png"
+            },
+            {
+                title: "Question 3",
+                meaning: '"I/me"',
+                pinyin: 'wǒ',
+                character: '我',
+                answerTitle: "Answer 3",
+                image: "wo.png"
+            },
+            {
+                title: "Question 4",
+                meaning: '"called"',
+                pinyin: 'jiào',
+                character: '叫',
+                answerTitle: "Answer 4",
+                image: "jiao.png"
+            },
+            {
+                title: "Question 5",
+                meaning: '"he/she"',
+                pinyin: 'tā',
+                character: '他',
+                answerTitle: "Answer 5",
+                image: "ta.png"
+            }
+        ];
+
+        function updateQuestionContent() {
+            const question = questions[currentQuestionIndex];
+            
+            // Update question side only
+            document.querySelector('#question-content h2').textContent = question.title;
+            document.getElementById('question-meaning').textContent = question.meaning;
+            document.getElementById('question-pinyin').textContent = question.pinyin;
+        }
+
+        function updateAnswerContent() {
+            const question = questions[currentQuestionIndex];
+            
+            // Update answer side only
+            document.querySelector('#answer-content h2').textContent = question.answerTitle;
+            
+            // Handle image vs text character
+            const answerCharacterElement = document.getElementById('answer-character');
+            if (question.image) {
+                // If there's an image, update the src
+                answerCharacterElement.src = question.image;
+                answerCharacterElement.alt = question.character;
+            } else {
+                // For questions without images, we'd need to replace img with text
+                // This is a fallback for other questions
+                answerCharacterElement.style.display = 'none';
+                // Create text element if it doesn't exist
+                let textElement = document.getElementById('answer-character-text');
+                if (!textElement) {
+                    textElement = document.createElement('p');
+                    textElement.id = 'answer-character-text';
+                    textElement.style.cssText = 'font-size: 75px; margin-bottom: 22px; margin-top: 0; font-family: "Microsoft YaHei", "SimHei", Heiti, sans-serif; color: #555555; line-height: 97px;';
+                    answerCharacterElement.parentNode.insertBefore(textElement, answerCharacterElement.nextSibling);
+                }
+                textElement.textContent = question.character;
+                textElement.style.display = 'block';
+            }
+            
+            document.getElementById('answer-meaning').textContent = question.meaning;
+            document.getElementById('answer-pinyin').textContent = question.pinyin;
+        }
+
+        function updateCountdown() {
+            if (isShowingAnswer) {
+                rotationInfo.textContent = `Hint ends in: ${answerTimeRemaining}s`;
+                answerTimeRemaining--;
+                
+                if (answerTimeRemaining < 0) {
+                    // Switch back to question (next question in cycle)
+                    currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+                    isShowingAnswer = false;
+                    secondsRemaining = 6;
+                    answerTimeRemaining = 3;
+                }
+            } else {
+                rotationInfo.textContent = `Hint in: ${secondsRemaining}s`;
+                secondsRemaining--;
+                
+                if (secondsRemaining < 0) {
+                    // Switch to answer
+                    isShowingAnswer = true;
+                    secondsRemaining = 6;
+                    answerTimeRemaining = 3;
+                }
+            }
+        }
+
+        function rotateCard() {
+            // Increment rotation by 180 degrees each flip
+            currentRotation += 180;
+            clickCount++;
+            
+            // Apply the rotation
+            flashcard.style.transform = `rotateY(${currentRotation}deg)`;
+            
+            // Determine timing based on current side
+            if (currentRotation % 360 === 0) {
+                // Showing question side - update question content now
+                updateQuestionContent();
+                isShowingAnswer = false;
+                secondsRemaining = 6;
+                answerTimeRemaining = 3;
+                // Schedule next rotation in 6 seconds
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = setInterval(rotateCard, 6000);
+            } else {
+                // Showing answer side - update answer content now
+                updateAnswerContent();
+                isShowingAnswer = true;
+                secondsRemaining = 6;
+                answerTimeRemaining = 3;
+                // Schedule next rotation in 3 seconds
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = setInterval(rotateCard, 3000);
+            }
+            updateCountdown();
+        }
+
+        // Start automatic rotation
+        function startAutoRotation() {
+            // Initialize with first question
+            updateQuestionContent();
+            updateAnswerContent();
+            // Start with question side for 6 seconds
+            autoRotateInterval = setInterval(rotateCard, 6000);
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        // Stop automatic rotation
+        function stopAutoRotation() {
+            clearInterval(autoRotateInterval);
+            clearInterval(countdownInterval);
+        }
+
+        // Manual click overrides auto rotation temporarily
+        flashcard.addEventListener('click', function() {
+            stopAutoRotation();
+            rotateCard();
+            // Show manual override message briefly
+            rotationInfo.textContent = 'Manual flip - restarting timer...';
+            setTimeout(() => {
+                updateCountdown();
+            }, 1000);
+        });
+
+        // Optional: Add keyboard support (spacebar to flip)
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space') {
+                event.preventDefault();
+                flashcard.click();
+            }
+        });
+
+        // Optional: Reset button functionality
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'KeyR') {
+                stopAutoRotation();
+                currentRotation = 0;
+                clickCount = 0;
+                currentQuestionIndex = 0;
+                flashcard.style.transform = `rotateY(0deg)`;
+                isShowingAnswer = false;
+                secondsRemaining = 6;
+                answerTimeRemaining = 3;
+                updateQuestionContent();
+                updateAnswerContent();
+                updateCountdown();
+                startAutoRotation();
+            }
+        });
+
+        // Start automatic rotation when page loads
+        startAutoRotation();
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australian English Learning App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+    <h1>Australian English Language Learning</h1>
+        <nav>
+            <button onclick="showSection('flashcards')">Vocabulary Flashcards</button>
+            <button onclick="showSection('matching')">Matching Game</button>
+            <button onclick="showSection('conversation')">Conversation Prompts</button>
+        </nav>
+        <section id="flashcards" class="activity-section">
+            <!-- Flashcards will be rendered here -->
+        </section>
+        <section id="matching" class="activity-section" style="display:none">
+            <!-- Matching game will be rendered here -->
+        </section>
+        <section id="conversation" class="activity-section" style="display:none">
+            <!-- Conversation prompts will be rendered here -->
+        </section>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

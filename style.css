@@ -1,0 +1,88 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f4fa;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 700px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 32px 24px 24px 24px;
+}
+h1 {
+    text-align: center;
+    color: #2a4d8f;
+}
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+nav button {
+    background: #2a4d8f;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+nav button:hover {
+    background: #1b325b;
+}
+.activity-section {
+    min-height: 300px;
+}
+.flashcard {
+    background: #e3eafc;
+    border-radius: 8px;
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 1.5rem;
+    color: #2a4d8f;
+    box-shadow: 0 1px 4px rgba(42,77,143,0.08);
+}
+.flashcard img {
+    max-width: 120px;
+    margin-bottom: 12px;
+}
+.flashcard-audio {
+    margin-top: 8px;
+}
+.matching-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+}
+.matching-item {
+    background: #e3eafc;
+    border-radius: 8px;
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background 0.2s;
+}
+.matching-item.selected {
+    background: #b6c9f1;
+}
+.matching-item.matched {
+    background: #a2e3b2;
+    color: #1b5e20;
+}
+.conversation-prompt {
+    background: #f9fbe7;
+    border-radius: 8px;
+    padding: 24px 18px;
+    font-size: 1.2rem;
+    color: #4e5d6c;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(42,77,143,0.06);
+}

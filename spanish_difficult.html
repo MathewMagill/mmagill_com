@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chinese Spelling Test - Difficult</title>
+    <title>Spanish Spelling Test - Difficult</title>
     <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
     <link rel="shortcut icon" href="android-chrome-512x512.png">
     <link rel="apple-touch-icon" href="android-chrome-512x512.png">
@@ -17,113 +17,32 @@
             margin: 0;
             background: white;
         }
-
-        .flashcard-container {
-            perspective: 1000px;
-            width: 500px;
-            height: 350px;
-        }
-
-        .flashcard {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.8s ease-in-out;
-            cursor: pointer;
-            transform: rotateY(0deg);
-        }
-
-        .flashcard-side {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-            font-size: 24px;
-            font-weight: normal;
-        }
-
-        .flashcard-front {
-            background: white;
-            color: black;
-            transform: rotateY(0deg);
-        }
-
-        .flashcard-side:hover {
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
-        }
-
-        .instructions {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: black;
-            text-align: center;
-            font-size: 22px;
-        }
-
-        .rotation-info {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: black;
-            font-size: 18px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            background: #f44336;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: background 0.3s ease;
-        }
-
-        .back-button:hover {
-            background: #da190b;
-        }
+        .flashcard-container { perspective: 1000px; width: 500px; height: 350px; }
+        .flashcard { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.8s ease-in-out; cursor: pointer; transform: rotateY(0deg); }
+        .flashcard-side { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); display: flex; justify-content: center; align-items: center; text-align: center; padding: 20px; box-sizing: border-box; font-size: 24px; font-weight: normal; }
+        .flashcard-front { background: white; color: black; transform: rotateY(0deg); }
+        .flashcard-side:hover { box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3); }
+        .instructions { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: black; text-align: center; font-size: 22px; }
+        .rotation-info { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); color: black; font-size: 18px; text-align: center; font-weight: bold; }
+        .back-button { position: absolute; top: 20px; left: 20px; padding: 10px 20px; background: #f44336; color: white; text-decoration: none; border-radius: 8px; font-size: 16px; transition: background 0.3s ease; }
+        .back-button:hover { background: #da190b; }
     </style>
 </head>
 <body>
-    <a href="index.html" class="back-button">← Back to Menu</a>
-    
-    <div class="instructions">
-        Write the correct Chinese character for the meaning and pinyin shown below...
-    </div>
-
+    <a href="spanish.html" class="back-button" style="position: absolute; top: 20px; left: 20px; padding: 10px 20px; background: #f44336; color: white; text-decoration: none; border-radius: 8px; font-size: 16px; transition: background 0.3s ease;">← Back to Spanish Menu</a>
+    <div class="instructions">Write the correct Spanish word or phrase for the English meaning shown below...</div>
     <div class="flashcard-container">
         <div class="flashcard" id="flashcard">
             <div class="flashcard-side flashcard-front">
                 <div id="question-content">
                     <h2 style="font-family: Calibri, Arial, sans-serif; color: black; font-weight: normal; margin-top: 0; margin-bottom: 18px;">Question 1</h2>
-                    <div style="height: 107px; width: 97px; margin: 0 auto 18px auto; border: 2px dashed #cccccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999999; font-size: 14px;">Write the Chinese word.</div>
-                    <p style="font-size: 32px; margin-bottom: 12px; margin-top: 0; font-family: Calibri, Arial, sans-serif; color: black;"><span>Meaning:</span> <span id="question-meaning">"you"</span></p>
-                    <p style="font-size: 28px; color: black; margin-bottom: 0; margin-top: 0; font-family: Calibri, Arial, sans-serif;"><span style="color: black;">Pinyin:</span> <span id="question-pinyin">nǐ</span></p>
+                    <div style="height: 54px; width: 320px; margin: 0 auto 18px auto; border: 2px dashed #cccccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999999; font-size: 18px;">Write the Spanish word or phrase.</div>
+                    <p style="font-size: 32px; margin-bottom: 12px; margin-top: 0; font-family: Calibri, Arial, sans-serif; color: black;"><span>Meaning:</span> <span id="question-meaning"></span></p>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="rotation-info" id="rotationInfo">
-        Next question in: 10s
-    </div>
-
+    <div class="rotation-info" id="rotationInfo">Next question in: 10s</div>
     <script>
         const flashcard = document.getElementById('flashcard');
         const rotationInfo = document.getElementById('rotationInfo');
@@ -136,38 +55,53 @@
         const questions = [
             {
                 title: "Question 1",
-                meaning: '"you"',
-                pinyin: 'nǐ',
-                character: '你',
-                image: "ni.png"
+                meaning: 'December',
+                character: 'Diciembre'
             },
             {
                 title: "Question 2",
-                meaning: '"good"',
-                pinyin: 'hǎo',
-                character: '好',
-                image: "hao.png"
+                meaning: 'How are you?',
+                character: '¿Como estas?'
             },
             {
                 title: "Question 3",
-                meaning: '"I/me"',
-                pinyin: 'wǒ',
-                character: '我',
-                image: "wo.png"
+                meaning: 'My name is…',
+                character: 'Me llamo…'
             },
             {
                 title: "Question 4",
-                meaning: '"called"',
-                pinyin: 'jiào',
-                character: '叫',
-                image: "jiao.png"
+                meaning: 'Older brother',
+                character: 'hermano mayor'
             },
             {
                 title: "Question 5",
-                meaning: '"he/she"',
-                pinyin: 'tā',
-                character: '他',
-                image: "ta.png"
+                meaning: 'Younger sister',
+                character: 'hermana menor'
+            },
+            {
+                title: "Question 6",
+                meaning: 'I am 13 years old',
+                character: 'Tengo trece años'
+            },
+            {
+                title: "Question 7",
+                meaning: 'March and January',
+                character: 'marzo y enero'
+            },
+            {
+                title: "Question 8",
+                meaning: '67231',
+                character: 'seis, siete, dos, tres, uno'
+            },
+            {
+                title: "Question 9",
+                meaning: '89425',
+                character: 'ocho, nueve, cuatro, dos, cinco'
+            },
+            {
+                title: "Question 10",
+                meaning: 'In my family there are 4 people',
+                character: 'En mi familia hay cuatro personas'
             }
         ];
 
@@ -175,11 +109,8 @@
 
         function updateQuestionContent() {
             const question = questions[currentQuestionIndex];
-            
-            // Update question side only
             document.querySelector('#question-content h2').textContent = question.title;
             document.getElementById('question-meaning').textContent = question.meaning;
-            document.getElementById('question-pinyin').textContent = question.pinyin;
         }
 
         function updateCountdown() {

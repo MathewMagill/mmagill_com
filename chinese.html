@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Spelling Test</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <link rel="shortcut icon" href="android-chrome-512x512.png">
+    <link rel="apple-touch-icon" href="android-chrome-512x512.png">
+    <style>
+        body {
+            font-family: Calibri, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .title {
+            font-size: 48px;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .option-card {
+            width: 280px;
+            height: 140px;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .easy {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+        }
+
+        .medium {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+        }
+
+        .difficult {
+            background: #ffebee;
+            border: 2px solid #f44336;
+        }
+
+        .option-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .option-description {
+            font-size: 16px;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .option-details {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button" style="position: absolute; top: 20px; left: 20px; padding: 10px 20px; background: #1976d2; color: white; text-decoration: none; border-radius: 8px; font-size: 16px; transition: background 0.3s ease;">← Back to Main Menu</a>
+    <h1 class="title">Chinese Spelling Test</h1>
+    
+    <div class="options-container">
+        <a href="chinese_easy.html" class="option-card easy">
+            <div class="option-title">Easy</div>
+            <div class="option-description">Full answers shown for 6 seconds</div>
+            <div class="option-details">White background, black text, maximum readability</div>
+        </a>
+        
+        <a href="chinese_medium.html" class="option-card medium">
+            <div class="option-title">Medium</div>
+            <div class="option-description">Hint answers shown for 3 seconds</div>
+            <div class="option-details">Striped background, grey text, reduced readability</div>
+        </a>
+        
+        <a href="chinese_difficult.html" class="option-card difficult">
+            <div class="option-title">Difficult</div>
+            <div class="option-description">No answers shown</div>
+            <div class="option-details">Questions only, no answers shown, test your memory</div>
+        </a>
+    </div>
+</body>
+</html>

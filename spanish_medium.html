@@ -41,27 +41,16 @@
                     <p style="font-size: 32px; margin-bottom: 12px; margin-top: 0; font-family: Calibri, Arial, sans-serif; color: black;"><span>Meaning:</span> <span id="question-meaning"></span></p>
                 </div>
             </div>
-            <div class="flashcard-side flashcard-back">
-                <div id="answer-content">
-                    <h2 style="font-family: Calibri, Arial, sans-serif; color: black; font-weight: normal; margin-top: 0; margin-bottom: 16px;">Answer 1</h2>
-                    <p id="answer-character" style="font-size: 40px; margin-bottom: 22px; margin-top: 0; font-family: Calibri, Arial, sans-serif; color: red;"></p>
-                    <p style="font-size: 32px; margin-bottom: 12px; margin-top: 0; font-family: Calibri, Arial, sans-serif; color: black;"><span>Meaning:</span> <span id="answer-meaning"></span></p>
-                </div>
-            </div>
         </div>
     </div>
-    <div class="rotation-info" id="rotationInfo">Hint in: 6s</div>
+    <div class="rotation-info" id="rotationInfo">Next question in: 15s</div>
     <script>
         const flashcard = document.getElementById('flashcard');
         const rotationInfo = document.getElementById('rotationInfo');
-        let currentRotation = 0;
-        let clickCount = 0;
-        let autoRotateInterval;
-        let countdownInterval;
-        let secondsRemaining = 6;
-        let isShowingAnswer = false;
-        let answerTimeRemaining = 3;
-        let currentQuestionIndex = 0;
+    let currentQuestionIndex = 0;
+    let countdownInterval;
+    let secondsRemaining = 15;
+    let currentRotation = 0;
 
         // Question data
         const questions = [
@@ -133,123 +122,62 @@
             document.getElementById('question-meaning').textContent = question.meaning;
         }
 
-        function updateAnswerContent() {
-            const question = questions[currentQuestionIndex];
-            document.querySelector('#answer-content h2').textContent = question.answerTitle;
-            document.getElementById('answer-character').textContent = question.character;
-            document.getElementById('answer-meaning').textContent = question.meaning;
-        }
-
         function updateCountdown() {
-            if (isShowingAnswer) {
-                rotationInfo.textContent = `Hint ends in: ${answerTimeRemaining}s`;
-                answerTimeRemaining--;
-                
-                if (answerTimeRemaining < 0) {
-                    // Switch back to question (next question in cycle)
-                    currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
-                    isShowingAnswer = false;
-                    secondsRemaining = 6;
-                    answerTimeRemaining = 3;
-                }
+            rotationInfo.textContent = `Next question in: ${secondsRemaining}s`;
+            if (secondsRemaining <= 0) {
+                nextQuestionWithFlip();
             } else {
-                rotationInfo.textContent = `Hint in: ${secondsRemaining}s`;
                 secondsRemaining--;
-                
-                if (secondsRemaining < 0) {
-                    // Switch to answer
-                    isShowingAnswer = true;
-                    secondsRemaining = 6;
-                    answerTimeRemaining = 3;
-                }
             }
         }
 
-        function rotateCard() {
-            // Increment rotation by 180 degrees each flip
+        function nextQuestionWithFlip() {
+            clearInterval(countdownInterval);
             currentRotation += 180;
-            clickCount++;
-            
-            // Apply the rotation
             flashcard.style.transform = `rotateY(${currentRotation}deg)`;
-            
-            // Determine timing based on current side
-            if (currentRotation % 360 === 0) {
-                // Showing question side - update question content now
+            setTimeout(() => {
+                currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
                 updateQuestionContent();
-                isShowingAnswer = false;
-                secondsRemaining = 6;
-                answerTimeRemaining = 3;
-                // Schedule next rotation in 6 seconds
-                clearInterval(autoRotateInterval);
-                autoRotateInterval = setInterval(rotateCard, 6000);
-            } else {
-                // Showing answer side - update answer content now
-                updateAnswerContent();
-                isShowingAnswer = true;
-                secondsRemaining = 6;
-                answerTimeRemaining = 3;
-                // Schedule next rotation in 3 seconds
-                clearInterval(autoRotateInterval);
-                autoRotateInterval = setInterval(rotateCard, 3000);
-            }
-            updateCountdown();
+                currentRotation += 180;
+                flashcard.style.transform = `rotateY(${currentRotation}deg)`;
+                setTimeout(() => {
+                    secondsRemaining = 15;
+                    countdownInterval = setInterval(updateCountdown, 1000);
+                }, 400);
+            }, 400);
         }
 
-        // Start automatic rotation
         function startAutoRotation() {
-            // Initialize with first question
             updateQuestionContent();
-            updateAnswerContent();
-            // Start with question side for 6 seconds
-            autoRotateInterval = setInterval(rotateCard, 6000);
             countdownInterval = setInterval(updateCountdown, 1000);
         }
 
-        // Stop automatic rotation
         function stopAutoRotation() {
-            clearInterval(autoRotateInterval);
             clearInterval(countdownInterval);
         }
 
-        // Manual click overrides auto rotation temporarily
         flashcard.addEventListener('click', function() {
             stopAutoRotation();
-            rotateCard();
-            // Show manual override message briefly
-            rotationInfo.textContent = 'Manual flip - restarting timer...';
+            nextQuestionWithFlip();
+            rotationInfo.textContent = 'Manual advance - restarting timer...';
             setTimeout(() => {
-                updateCountdown();
+                secondsRemaining = 15;
+                countdownInterval = setInterval(updateCountdown, 1000);
             }, 1000);
         });
 
-        // Optional: Add keyboard support (spacebar to flip)
-        document.addEventListener('keydown', function(event) {
-            if (event.code === 'Space') {
-                event.preventDefault();
-                flashcard.click();
-            }
-        });
-
-        // Optional: Reset button functionality
         document.addEventListener('keydown', function(event) {
             if (event.code === 'KeyR') {
                 stopAutoRotation();
-                currentRotation = 0;
-                clickCount = 0;
                 currentQuestionIndex = 0;
+                currentRotation = 0;
+                secondsRemaining = 15;
                 flashcard.style.transform = `rotateY(0deg)`;
-                isShowingAnswer = false;
-                secondsRemaining = 6;
-                answerTimeRemaining = 3;
                 updateQuestionContent();
-                updateAnswerContent();
-                updateCountdown();
                 startAutoRotation();
             }
         });
 
-        // Start automatic rotation when page loads
         startAutoRotation();
     </script>
 </body>

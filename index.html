@@ -1,38 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Flashcard Language App</title>
-	<link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
-	<link rel="shortcut icon" href="android-chrome-512x512.png">
-	<link rel="apple-touch-icon" href="android-chrome-512x512.png">
-	<style>
-		body { font-family: Calibri, Arial, sans-serif; background: #f5f5f5; margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-		h1 { color: #333; margin-top: 40px; margin-bottom: 32px; font-size: 2.5rem; }
-		.menu-container { display: flex; gap: 40px; margin-bottom: 40px; }
-		.menu-card { background: white; border-radius: 16px; box-shadow: 0 4px 18px rgba(0,0,0,0.10); padding: 36px 48px; text-align: center; text-decoration: none; color: #222; font-size: 1.4rem; font-weight: 500; transition: box-shadow 0.2s, transform 0.2s; }
-		.menu-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.18); transform: translateY(-4px) scale(1.03); color: #1976d2; }
-		.menu-icon { width: 64px; height: 64px; margin-bottom: 18px; }
-	</style>
+<meta charset="UTF-8">
+<title>Fruit Learning Games</title>
+<style>
+body { font-family: Arial, sans-serif; text-align: center; }
+.hidden { display: none; }
+button {
+padding: 20px 40px;
+font-size: 24px;
+margin: 20px;
+cursor: pointer;
+}
+canvas { background: #eef; display: block; margin: auto; }
+#typingInput {
+font-size: 24px;
+padding: 10px;
+width: 300px;
+text-align: center;
+}
+</style>
 </head>
 <body>
-	<h1>Flashcard Language App</h1>
-	<div class="menu-container">
-		<a href="chinese.html" class="menu-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-			<div style="font-size: 2rem; font-family: 'Microsoft YaHei', 'SimHei', Heiti, sans-serif; color: #1976d2; margin-bottom: 12px; margin-top: 12px; text-align: center; width: 100%;">你好</div>
-			<div style="text-align: center; width: 100%;">Chinese Flashcards</div>
-		</a>
-		<a href="spanish.html" class="menu-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-			<div style="font-size: 2rem; color: #e65100; margin-bottom: 12px; margin-top: 12px; text-align: center; width: 100%;">¡Hola!</div>
-			<div style="text-align: center; width: 100%;">Spanish Flashcards</div>
-		</a>
-		<a href="australian.html" class="menu-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-			<div style="font-size: 2rem; color: #388e3c; margin-bottom: 12px; margin-top: 12px; text-align: center; width: 100%;">G'day!</div>
-			<div style="text-align: center; width: 100%;">Australian Flashcards</div>
-		</a>
-	</div>
-</body>
-<!-- No back button needed on index.html -->
+
+<!-- ============================
+MAIN MENU
+=============================== -->
+<div id="menu">
+<h1>Fruit Learning Games</h1>
+<button onclick="showBlobGame()">Fruit Blob Game</button>
+<button onclick="showTypingGame()">Fruit Typing Game</button>
+</div>
+
+<!-- ============================
+FRUIT BLOB GAME
+=============================== -->
+<div id="blobGame" class="hidden">
+<h1>Fruit Game</h1>
+<p>Use WASD keys or arrow keys to control the blob.<br>
+Read the prompt to collect the fruit that the blob likes.</p>
+
+<div id="prompt"></div>
+<div id="pinyin"></div>
+<div id="score">Score: 0</div>
+
+<canvas id="game" width="600" height="400"></canvas>
+
+<button onclick="returnToMenu()">Return to Menu</button>
+</div>
+
+<!-- ============================
+TYPING GAME
+=============================== -->
+<div id="typingGame" class="hidden">
+<h1>Fruit Typing Game</h1>
+<p>Type the correct Chinese word or sentence based on the prompt.<br>
+No copy/paste allowed — you must type it!</p>
+
+<h2 id="typingPrompt">🍎</h2>
+
+<input id="typingInput" autocomplete="off">
+<br><br>
+<button onclick="checkTypingAnswer()">Submit</button>
+
+<h3 id="typingScore">Score: 0</h3>
+<h3 id="typingLevel">Level: 1</h3>
+
+<button onclick="returnToMenu()">Return to Menu</button>
+</div>
+
+<script>
+/* ============================
+PAGE SWITCHING
+=============================== */
+function showBlobGame() {
+document.getElementById("menu").classList.add("hidden");
+document.getElementById("blobGame").classList.remove("hidden");
+}
+
+function showTypingGame() {
+document.getElementById("menu").classList.add("hidden");
+document.getElementById("typingGame").classList.remove("hidden");
+}
+
+function returnToMenu() {
+location.reload(); // resets everything
+}
+
+/* ============================
+FRUIT BLOB GAME CODE
+=============================== */
+
+let score = 0;
+let level = 1;
+
+const promptsLevel1 = [
+{ chinese: "我喜欢苹果。", pinyin: "wǒ xǐhuān píngguǒ", likes: ["apple"] },
+{ chinese: "我不喜欢苹果。", pinyin: "wǒ bù xǐhuān píngguǒ", likes: ["banana"] },
+{ chinese: "我喜欢香蕉。", pinyin: "wǒ xǐhuān xiāngjiāo", likes: ["banana"] },
+{ chinese: "我不喜欢香蕉。", pinyin: "wǒ bù xǐhuān xiāngjiāo", likes: ["apple"] }
+];
+
+const promptsLevel2 = [
+{ chinese: "我喜欢草莓。", pinyin: "wǒ xǐhuān cǎoméi", likes: ["strawberry"] },
+{ chinese: "我不喜欢香蕉也不喜欢苹果。", pinyin: "wǒ bù xǐhuān xiāngjiāo yě bù xǐhuān píngguǒ", likes: ["strawberry"] }
+];
+
+const promptsLevel3 = [
+{ chinese: "我喜欢葡萄。", pinyin: "wǒ xǐhuān pútao", likes: ["grape"] },
+{ chinese: "我喜欢苹果也喜欢草莓。", pinyin: "wǒ xǐhuān píngguǒ yě xǐhuān cǎoméi", likes: ["apple", "strawberry"] },
+{ chinese: "我不喜欢香蕉也不喜欢苹果。", pinyin: "wǒ bù xǐhuān xiāngjiāo yě bù xǐhuān píngguǒ", likes: ["strawberry", "grape"] }
+];
+
+function randomPrompt() {
+if (level === 1) return promptsLevel1[Math.floor(Math.random() * promptsLevel1.length)];
+if (level === 2) return promptsLevel2[Math.floor(Math.random() * promptsLevel2.length)];
+return promptsLevel3[Math.floor(Math.random() * promptsLevel3.length)];
+}
+
+let currentPrompt = randomPrompt();
+document.getElementById("prompt").innerText = currentPrompt.chinese;
+document.getElementById("pinyin").innerText = currentPrompt.pinyin;
+
+const fruitEmoji = {
+apple: "🍎",
+banana: "🍌",
+strawberry: "🍓",
+grape: "🍇"
+};
+
+let fruits = [];
+
+function spawnFruit(type = null) {
+let fruitType;
+
+if (type) {
+fruitType = type;
+} else {
+const pool = level === 1
+? ["apple", "banana"]
+: level === 2
+? ["apple", "banana", "strawberry"]
+: ["apple", "banana", "strawberry", "grape"];
+
+fruitType = pool[Math.floor(Math.random() * pool.length)];
+}
+
+fruits.push({
+type: fruitType,
+x: Math.random() * 560 + 20,
+y: Math.random() * 360 + 20
+});
+}
+
+for (let i = 0; i < 5; i++) spawnFruit();
+
+function ensureCorrectFruit() {
+const correctTypes = currentPrompt.likes;
+const exists = fruits.some(f => correctTypes.includes(f.type));
+if (!exists) spawnFruit(correctTypes[Math.floor(Math.random() * correctTypes.length)]);
+}
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let player = { x: 300, y: 200, size: 20, speed: 3 };
+let keys = {};
+
+document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keyup", e => keys[e.key] = false);
+
+function update() {
+if (keys["w"] || keys["ArrowUp"]) player.y -= player.speed;
+if (keys["s"] || keys["ArrowDown"]) player.y += player.speed;
+if (keys["a"] || keys["ArrowLeft"]) player.x -= player.speed;
+if (keys["d"] || keys["ArrowRight"]) player.x += player.speed;
+
+fruits.forEach((fruit, i) => {
+const dx = fruit.x - player.x;
+const dy = fruit.y - player.y;
+const dist = Math.sqrt(dx*dx + dy*dy);
+
+if (dist < player.size) {
+if (currentPrompt.likes.includes(fruit.type)) {
+score++;
+player.size += 0.5;
+} else {
+score--;
+player.size = Math.max(10, player.size - 0.5);
+}
+
+fruits.splice(i, 1);
+spawnFruit();
+
+if (score >= 10 && level === 1) level = 2;
+if (score >= 20 && level === 2) level = 3;
+
+currentPrompt = randomPrompt();
+document.getElementById("prompt").innerText = currentPrompt.chinese;
+document.getElementById("pinyin").innerText = currentPrompt.pinyin;
+document.getElementById("score").innerText = "Score: " + score;
+
+ensureCorrectFruit();
+}
+});
+
+ensureCorrectFruit();
+}
+
+function draw() {
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+ctx.beginPath();
+ctx.arc(player.x, player.y, player.size, 0, Math.PI * 2);
+ctx.fillStyle = "blue";
+ctx.fill();
+
+fruits.forEach(fruit => {
+ctx.font = "32px serif";
+ctx.fillText(fruitEmoji[fruit.type], fruit.x - 10, fruit.y + 10);
+});
+}
+
+function gameLoop() {
+update();
+draw();
+requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+
+/* ============================
+TYPING GAME CODE
+=============================== */
+
+let typingScore = 0;
+let typingLevel = 1;
+
+const typingFruitWords = {
+"🍎": "苹果",
+"🍌": "香蕉",
+"🍓": "草莓",
+"🍇": "葡萄"
+};
+
+const typingPromptsLevel2 = [
+"我喜欢苹果。",
+"我不喜欢苹果。",
+"我喜欢香蕉。",
+"我不喜欢香蕉。",
+"我喜欢草莓。",
+"我不喜欢草莓。",
+"我喜欢葡萄。",
+"我不喜欢葡萄。"
+];
+
+const typingPromptsLevel3 = [
+"我喜欢苹果也喜欢草莓。",
+"我不喜欢香蕉也不喜欢苹果。",
+"我喜欢葡萄也喜欢香蕉。",
+"我不喜欢草莓也不喜欢葡萄。"
+];
+
+let currentTypingPrompt = "🍎";
+
+function newTypingPrompt() {
+if (typingLevel === 1) {
+const fruits = ["🍎", "🍌", "🍓", "🍇"];
+currentTypingPrompt = fruits[Math.floor(Math.random() * fruits.length)];
+} else if (typingLevel === 2) {
+currentTypingPrompt = typingPromptsLevel2[Math.floor(Math.random() * typingPromptsLevel2.length)];
+} else {
+currentTypingPrompt = typingPromptsLevel3[Math.floor(Math.random() * typingPromptsLevel3.length)];
+}
+
+document.getElementById("typingPrompt").innerText = currentTypingPrompt;
+}
+
+newTypingPrompt();
+
+// Disable copy/paste
+const input = document.getElementById("typingInput");
+input.onpaste = e => e.preventDefault();
+input.oncopy = e => e.preventDefault();
+input.oncut = e => e.preventDefault();
+
+function checkTypingAnswer() {
+const answer = input.value.trim();
+input.value = "";
+
+let correctAnswer = currentTypingPrompt;
+
+// Level 1 uses emojis → convert to fruit word
+if (typingLevel === 1) {
+correctAnswer = typingFruitWords[currentTypingPrompt];
+}
+
+if (answer === correctAnswer) {
+typingScore++;
+} else {
+typingScore--;
+}
+
+if (typingScore >= 10 && typingLevel === 1) typingLevel = 2;
+if (typingScore >= 20 && typingLevel === 2) typingLevel = 3;
+
+document.getElementById("typingScore").innerText = "Score: " + typingScore;
+document.getElementById("typingLevel").innerText = "Level: " + typingLevel;
+
+newTypingPrompt();
+}
+</script>
+
 </body>
 </html>

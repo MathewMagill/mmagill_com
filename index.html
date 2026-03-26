@@ -19,6 +19,24 @@ padding: 10px;
 width: 300px;
 text-align: center;
 }
+#feedbackBox {
+font-size: 24px;
+margin-top: 20px;
+white-space: pre-wrap;
+}
+.red { color: red; }
+.black { color: black; }
+
+/* Touch controller */
+#touchControls {
+margin-top: 20px;
+}
+.dpad-btn {
+width: 60px;
+height: 60px;
+font-size: 32px;
+margin: 5px;
+}
 </style>
 </head>
 <body>
@@ -37,7 +55,7 @@ FRUIT BLOB GAME
 =============================== -->
 <div id="blobGame" class="hidden">
 <h1>Fruit Game</h1>
-<p>Use WASD keys or arrow keys to control the blob.<br>
+<p>Use WASD keys, arrow keys, or the touch controller.<br>
 Read the prompt to collect the fruit that the blob likes.</p>
 
 <div id="prompt"></div>
@@ -45,6 +63,18 @@ Read the prompt to collect the fruit that the blob likes.</p>
 <div id="score">Score: 0</div>
 
 <canvas id="game" width="600" height="400"></canvas>
+
+<!-- Touch controller -->
+<div id="touchControls">
+<div>
+<button class="dpad-btn" onclick="touchMove('up')">⬆️</button>
+</div>
+<div>
+<button class="dpad-btn" onclick="touchMove('left')">⬅️</button>
+<button class="dpad-btn" onclick="touchMove('down')">⬇️</button>
+<button class="dpad-btn" onclick="touchMove('right')">➡️</button>
+</div>
+</div>
 
 <button onclick="returnToMenu()">Return to Menu</button>
 </div>
@@ -61,7 +91,10 @@ No copy/paste allowed — you must type it!</p>
 
 <input id="typingInput" autocomplete="off">
 <br><br>
-<button onclick="checkTypingAnswer()">Submit</button>
+<button id="submitBtn" onclick="checkTypingAnswer()">Submit</button>
+
+<div id="feedbackBox"></div>
+<button id="continueBtn" class="hidden" onclick="continueTyping()">Continue</button>
 
 <h3 id="typingScore">Score: 0</h3>
 <h3 id="typingLevel">Level: 1</h3>
@@ -88,7 +121,7 @@ location.reload(); // resets everything
 }
 
 /* ============================
-FRUIT BLOB GAME CODE
+BLOB GAME LOGIC
 =============================== */
 
 let score = 0;
@@ -170,6 +203,14 @@ let keys = {};
 document.addEventListener("keydown", e => keys[e.key] = true);
 document.addEventListener("keyup", e => keys[e.key] = false);
 
+/* TOUCH CONTROLS */
+function touchMove(dir) {
+if (dir === "up") player.y -= player.speed * 4;
+if (dir === "down") player.y += player.speed * 4;
+if (dir === "left") player.x -= player.speed * 4;
+if (dir === "right") player.x += player.speed * 4;
+}
+
 function update() {
 if (keys["w"] || keys["ArrowUp"]) player.y -= player.speed;
 if (keys["s"] || keys["ArrowDown"]) player.y += player.speed;
@@ -231,7 +272,49 @@ requestAnimationFrame(gameLoop);
 gameLoop();
 
 /* ============================
-TYPING GAME CODE
+CONFETTI EFFECT
+=============================== */
+
+function confettiBurst() {
+const confettiCanvas = document.createElement("canvas");
+confettiCanvas.width = window.innerWidth;
+confettiCanvas.height = window.innerHeight;
+confettiCanvas.style.position = "fixed";
+confettiCanvas.style.top = "0";
+confettiCanvas.style.left = "0";
+confettiCanvas.style.pointerEvents = "none";
+document.body.appendChild(confettiCanvas);
+
+const cctx = confettiCanvas.getContext("2d");
+const pieces = [];
+
+for (let i = 0; i < 150; i++) {
+pieces.push({
+x: Math.random() * confettiCanvas.width,
+y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+size: Math.random() * 8 + 4,
+speed: Math.random() * 3 + 2,
+color: `hsl(${Math.random() * 360}, 100%, 50%)`
+});
+}
+
+function animate() {
+cctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+pieces.forEach(p => {
+p.y += p.speed;
+cctx.fillStyle = p.color;
+cctx.fillRect(p.x, p.y, p.size, p.size);
+});
+requestAnimationFrame(animate);
+}
+
+animate();
+
+setTimeout(() => confettiCanvas.remove(), 1000);
+}
+
+/* ============================
+TYPING GAME LOGIC
 =============================== */
 
 let typingScore = 0;
@@ -265,6 +348,10 @@ const typingPromptsLevel3 = [
 let currentTypingPrompt = "🍎";
 
 function newTypingPrompt() {
+document.getElementById("feedbackBox").innerHTML = "";
+document.getElementById("continueBtn").classList.add("hidden");
+document.getElementById("submitBtn").classList.remove("hidden");
+
 if (typingLevel === 1) {
 const fruits = ["🍎", "🍌", "🍓", "🍇"];
 currentTypingPrompt = fruits[Math.floor(Math.random() * fruits.length)];
@@ -285,29 +372,60 @@ input.onpaste = e => e.preventDefault();
 input.oncopy = e => e.preventDefault();
 input.oncut = e => e.preventDefault();
 
+function colourCompare(student, correct) {
+let output = "";
+
+const maxLen = Math.max(student.length, correct.length);
+
+for (let i = 0; i < maxLen; i++) {
+const s = student[i] || "";
+const c = correct[i] || "";
+
+if (s === c) {
+output += `<span class="black">${c}</span>`;
+} else {
+output += `<span class="red">${c}</span>`;
+}
+}
+
+return output;
+}
+
 function checkTypingAnswer() {
 const answer = input.value.trim();
 input.value = "";
 
 let correctAnswer = currentTypingPrompt;
 
-// Level 1 uses emojis → convert to fruit word
 if (typingLevel === 1) {
 correctAnswer = typingFruitWords[currentTypingPrompt];
 }
 
-if (answer === correctAnswer) {
+let isCorrect = answer === correctAnswer;
+
+if (isCorrect) {
 typingScore++;
+confettiBurst();
 } else {
 typingScore--;
 }
 
+document.getElementById("typingScore").innerText = "Score: " + typingScore;
+
 if (typingScore >= 10 && typingLevel === 1) typingLevel = 2;
 if (typingScore >= 20 && typingLevel === 2) typingLevel = 3;
 
-document.getElementById("typingScore").innerText = "Score: " + typingScore;
 document.getElementById("typingLevel").innerText = "Level: " + typingLevel;
 
+const feedback = colourCompare(answer, correctAnswer);
+document.getElementById("feedbackBox").innerHTML =
+`Your answer:<br>${feedback}<br><br>Correct answer:<br><strong>${correctAnswer}</strong>`;
+
+document.getElementById("submitBtn").classList.add("hidden");
+document.getElementById("continueBtn").classList.remove("hidden");
+}
+
+function continueTyping() {
 newTypingPrompt();
 }
 </script>

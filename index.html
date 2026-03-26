@@ -70,20 +70,37 @@ Read the prompt to collect the fruit that the blob likes.</p>
 
 <canvas id="game" width="600" height="400"></canvas>
 
-<!-- Touch controller -->
-<div id="touchControls">
-<div>
-<button class="dpad-btn" onclick="touchMove('up')">⬆️</button>
-</div>
-<div>
-<button class="dpad-btn" onclick="touchMove('left')">⬅️</button>
-<button class="dpad-btn" onclick="touchMove('down')">⬇️</button>
-<button class="dpad-btn" onclick="touchMove('right')">➡️</button>
-</div>
-</div>
+/* TOUCH CONTROLS — continuous movement */
+let touchDirection = null;
 
-<button onclick="returnToMenu()">Return to Menu</button>
-</div>
+function touchMoveStart(dir) {
+  touchDirection = dir;
+}
+
+function touchMoveStop() {
+  touchDirection = null;
+}
+
+function applyTouchMovement() {
+  if (!touchDirection) return;
+
+  const speed = player.speed * 1.8;
+
+  if (touchDirection === "up") player.y -= speed;
+  if (touchDirection === "down") player.y += speed;
+  if (touchDirection === "left") player.x -= speed;
+  if (touchDirection === "right") player.x += speed;
+}
+
+// Add this inside your gameLoop() BEFORE update():
+applyTouchMovement();
+
+<button class="dpad-btn"
+  onmousedown="touchMoveStart('up')"
+  onmouseup="touchMoveStop()"
+  ontouchstart="touchMoveStart('up')"
+  ontouchend="touchMoveStop()">⬆️</button>
+
 
 <!-- ============================
 TYPING GAME

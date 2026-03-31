@@ -734,14 +734,18 @@ function startNumberShooterGame() {
 
   gameLoopNumberShooter();
 }
-
 document.addEventListener("keydown", e => {
   if (document.getElementById("numberShooterGame").classList.contains("hidden")) return;
+
+  // Stop the browser from scrolling the page when Space is pressed
+  if (e.key === " " || e.code === "Space") {
+    e.preventDefault();
+  }
 
   if (e.key === "ArrowLeft") numberPlayer.x -= 10;
   if (e.key === "ArrowRight") numberPlayer.x += 10;
 
-  if (e.key === " ") {
+  if (e.key === " " || e.code === "Space") {
     numberPlayer.bullets.push({ x: numberPlayer.x + 7, y: numberPlayer.y - 10 });
   }
 });

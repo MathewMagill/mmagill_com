@@ -521,7 +521,9 @@ const BALL_RADIUS = 10;
 const STACK_TOP_PADDING = 30;
 const STACK_SPACING_X = 100;
 const BALL_SPACING_Y = 22;
-const LABEL_OFFSET = 5; // gap between label bottom and first ball top
+const LABEL_OFFSET = 18; // gap between label bottom and first ball top
+
+  
 
 // Returns an array of ball objects forming a vertical stack for the given number.
 function makeStack(number) {
@@ -599,9 +601,12 @@ function updateNumberShooterGame() {
             document.getElementById("numberScore").innerText = "Score: " + numberScore;
 
             if (target.balls.length === 0) {
-              target.balls = makeStack(target.number);
-              setNewNumberPrompt();
-            }
+  setTimeout(() => {
+    target.balls = makeStack(target.number);
+  }, REPLENISH_DELAY_MS);
+
+  setNewNumberPrompt();
+}
           }
         });
       }

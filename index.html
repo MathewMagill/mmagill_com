@@ -324,4 +324,122 @@ function startBlobGame() {
   document.getElementById("score").innerText = "Score: 0";
   gameLoopBlob();
 }
+</script><script>
+/* ============================
+   TYPING GAME LOGIC
+=============================== */
+
+let typingScore = 0;
+let typingLevel = 1;
+
+const typingFruitWords = {
+  "🍎": "苹果",
+  "🍌": "香蕉",
+  "🍓": "草莓",
+  "🍇": "葡萄"
+};
+
+const typingPromptsLevel2 = [
+  "我喜欢苹果。",
+  "我不喜欢苹果。",
+  "我喜欢香蕉。",
+  "我不喜欢香蕉。",
+  "我喜欢草莓。",
+  "我不喜欢草莓。",
+  "我喜欢葡萄。",
+  "我不喜欢葡萄。"
+];
+
+const typingPromptsLevel3 = [
+  "我喜欢苹果也喜欢草莓。",
+  "我不喜欢香蕉也不喜欢苹果。",
+  "我喜欢葡萄也喜欢香蕉。",
+  "我不喜欢草莓也不喜欢葡萄。"
+];
+
+let currentTypingPrompt = "🍎";
+
+function newTypingPrompt() {
+  document.getElementById("feedbackBox").innerHTML = "";
+  document.getElementById("continueBtn").classList.add("hidden");
+  document.getElementById("submitBtn").classList.remove("hidden");
+
+  if (typingLevel === 1) {
+    const fruits = ["🍎", "🍌", "🍓", "🍇"];
+    currentTypingPrompt = fruits[Math.floor(Math.random() * fruits.length)];
+  } else if (typingLevel === 2) {
+    currentTypingPrompt = typingPromptsLevel2[Math.floor(Math.random() * typingPromptsLevel2.length)];
+  } else {
+    currentTypingPrompt = typingPromptsLevel3[Math.floor(Math.random() * typingPromptsLevel3.length)];
+  }
+
+  document.getElementById("typingPrompt").innerText = currentTypingPrompt;
+}
+
+// Initialize the first prompt
+newTypingPrompt();
+
+// Disable copy/paste
+const typingInput = document.getElementById("typingInput");
+typingInput.onpaste = e => e.preventDefault();
+typingInput.oncopy = e => e.preventDefault();
+typingInput.oncut = e => e.preventDefault();
+
+function compareTypingResults(student, correct) {
+  let output = "";
+  const maxLen = Math.max(student.length, correct.length);
+
+  for (let i = 0; i < maxLen; i++) {
+    const studentChar = student[i] || "＿";
+    const correctChar = correct[i] || "";
+
+    if (studentChar === correctChar && studentChar !== "") {
+      output += `<span class="black">${studentChar}</span>`;
+    } else {
+      output += `<span class="red">${studentChar}</span>`;
+    }
+  }
+  return output;
+}
+
+function checkTypingAnswer() {
+  const answer = typingInput.value.trim();
+  typingInput.value = "";
+
+  let correctAnswer = currentTypingPrompt;
+
+  if (typingLevel === 1) {
+    correctAnswer = typingFruitWords[currentTypingPrompt];
+  }
+
+  const isCorrect = answer === correctAnswer;
+
+  if (isCorrect) {
+    typingScore++;
+    console.log("Correct answer! Confetti burst!");
+    confettiBurst(); // Function for visual reward
+  } else {
+    typingScore--;
+  }
+
+  document.getElementById("typingScore").innerText = "Score: " + typingScore;
+
+  if (typingScore >= 10 && typingLevel === 1) typingLevel = 2;
+  if (typingScore >= 20 && typingLevel === 2) typingLevel = 3;
+
+  document.getElementById("typingLevel").innerText = "Level: " + typingLevel;
+
+  const coloredAnswer = compareTypingResults(answer, correctAnswer);
+
+  document.getElementById("feedbackBox").innerHTML =
+    `Your answer:<br>${coloredAnswer}<br><br>` +
+    `Correct answer:<br><strong>${correctAnswer}</strong>`;
+
+  document.getElementById("submitBtn").classList.add("hidden");
+  document.getElementById("continueBtn").classList.remove("hidden");
+}
+
+function continueTyping() {
+  newTypingPrompt();
+}
 </script>

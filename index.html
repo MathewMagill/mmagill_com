@@ -525,6 +525,26 @@ const LABEL_OFFSET = 10; // gap between label bottom and first ball top
 
   const REPLENISH_DELAY_MS = 250;
 
+// Hit burst particles
+let hitParticles = [];
+
+function spawnBurst(x, y) {
+  const count = 18;
+  for (let i = 0; i < count; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const speed = 1.5 + Math.random() * 3.5;
+    hitParticles.push({
+      x, y,
+      vx: Math.cos(a) * speed,
+      vy: Math.sin(a) * speed,
+      life: 18 + Math.floor(Math.random() * 10),
+      size: 2 + Math.random() * 3,
+      color: `hsla(${90 + Math.random() * 60}, 90%, 45%, 1)`
+    });
+  }
+}
+
+  
 // Returns an array of ball objects forming a vertical stack for the given number.
 function makeStack(number) {
   const balls = [];
@@ -574,6 +594,11 @@ function drawNumberShooterGame() {
     numberCtx.textBaseline = "bottom";
     numberCtx.fillText(String(target.number), STACK_SPACING_X * target.number, STACK_TOP_PADDING - LABEL_OFFSET);
 
+hitParticles.forEach(p => {
+  numberCtx.fillStyle = p.color;
+  numberCtx.fillRect(p.x, p.y, p.size, p.size);
+});
+    
     target.balls.forEach(ball => {
       numberCtx.beginPath();
       numberCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
@@ -595,10 +620,20 @@ function updateNumberShooterGame() {
 
           if (dist < 10) {
             // Hit the right target
+            spawnBurst(ball.x, ball.y);
             target.balls.splice(ballIndex, 1);
             numberPlayer.bullets.splice(bulletIndex, 1);
             numberScore++;
             document.getElementById("numberScore").innerText = "Score: " + numberScore;
+            hitParticles = hitParticles
+  .map(p => {
+    p.x += p.vx; p.y += p.vy;
+    p.vy += 0.08;
+    p.vx *= 0.98; p.vy *= 0.98;
+    p.life--;
+    return p.life > 0 ? p : null;
+  })
+  .filter(Boolean);
 
             if (target.balls.length === 0) {
   setTimeout(() => {

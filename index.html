@@ -121,10 +121,11 @@ body, button, canvas, div, input {
   <h1>Numbers Shooter Game</h1>
   <p>Shoot the stacks of balls with the correct number matching the Chinese prompt.</p>
 
-  <div id="numberPrompt"></div>
-  <div id="numberScore">Score: 0</div>
+ <div id="numberPrompt"></div>
+<div id="numberScore">Score: 0</div>
+<div id="numberLevel">Level: 1</div>
 
-  <canvas id="numberCanvas" width="600" height="400"></canvas>
+<canvas id="numberCanvas" width="600" height="400"></canvas>
 
   <button onclick="returnToMenu()">Return to Menu</button>
 </div>
@@ -580,6 +581,14 @@ function generateNumberTargets() {
     targets.push({ number: i, balls: makeStack(i) });
   }
 }
+function getNumberShooterLevel() {
+  return numberScore >= 25 ? 2 : 1;
+}
+
+function updateNumberShooterHUD() {
+  document.getElementById("numberScore").innerText = "Score: " + numberScore;
+  document.getElementById("numberLevel").innerText = "Level: " + getNumberShooterLevel();
+}
 
 function drawNumberShooterGame() {
   numberCtx.clearRect(0, 0, numberCanvas.width, numberCanvas.height);
@@ -626,7 +635,7 @@ function drawNumberShooterGame() {
 }
 
 function updateNumberShooterGame() {
-  const level2Unlocked = numberScore >= 25;
+  const level2Unlocked = getNumberShooterLevel() >= 2;
 
   // Collisions
   numberPlayer.bullets.forEach((bullet, bulletIndex) => {
@@ -658,10 +667,11 @@ function updateNumberShooterGame() {
             numberScore -= 1;
           }
 
-          // update UI
-          document.getElementById("numberScore").innerText = "Score: " + numberScore;
+          // update HUD (score + level)
+          updateNumberShooterHUD();
 
-          // if stack cleared, replenish. Only advance prompt if they cleared the CORRECT stack
+          // if stack cleared, replenish.
+          // Only advance prompt (and clear splatter) if they cleared the CORRECT stack.
           if (target.balls.length === 0) {
             setTimeout(() => {
               target.balls = makeStack(target.number);
@@ -709,7 +719,9 @@ function startNumberShooterGame() {
   numberPlayer.bullets = [];
   generateNumberTargets();
   setNewNumberPrompt();
-  document.getElementById("numberScore").innerText = "Score: 0";
+
+  updateNumberShooterHUD();
+
   gameLoopNumberShooter();
 }
 

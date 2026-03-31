@@ -442,4 +442,154 @@ function checkTypingAnswer() {
 function continueTyping() {
   newTypingPrompt();
 }
+</script><script>
+/* ============================
+   NUMBERS SHOOTER GAME
+=============================== */
+let numberScore = 0;
+let numberPlayer = { x: 300, y: 350, bullets: [] };
+let targets = [];
+const numberPromptMap = { 1: "一", 2: "二", 3: "三", 4: "四", 5: "五" };
+let currentNumberPrompt = Math.floor(Math.random() * 5) + 1;
+
+const numberCanvas = document.getElementById("numberCanvas");
+const numberCtx = numberCanvas.getContext("2d");
+
+function setNewNumberPrompt() {
+  currentNumberPrompt = Math.floor(Math.random() * 5) + 1;
+  document.getElementById("numberPrompt").innerText = "Shoot: " + numberPromptMap[currentNumberPrompt];
+}
+
+function generateNumberTargets() {
+  targets = [];
+  for (let i = 1; i <= 5; i++) {
+    let balls = [];
+    for (let j = 0; j < i; j++) {
+      balls.push({ x: 100 * i, y: 20 * j, width: 20, height: 20 });
+    }
+    targets.push({ number: i, balls });
+  }
+}
+
+function drawNumberShooterGame() {
+  numberCtx.clearRect(0, 0, numberCanvas.width, numberCanvas.height);
+
+  // Draw player
+  numberCtx.fillStyle = "blue";
+  numberCtx.fillRect(numberPlayer.x, numberPlayer.y, 20, 10);
+
+  // Draw bullets
+  numberPlayer.bullets = numberPlayer.bullets.map(bullet => {
+    bullet.y -= 5;
+    numberCtx.fillStyle = "red";
+    numberCtx.fillRect(bullet.x, bullet.y, 5, 10);
+    return bullet.y > 0 ? bullet : null;
+  }).filter(bullet => bullet);
+
+  // Draw targets
+  targets.forEach(target => {
+    target.balls.forEach(ball => {
+      numberCtx.beginPath();
+      numberCtx.arc(ball.x, ball.y, ball.width / 2, 0, Math.PI * 2);
+      numberCtx.fillStyle = "green";
+      numberCtx.fill();
+    });
+  });
+}
+
+function updateNumberShooterGame() {
+  // Bullet and target collision
+  numberPlayer.bullets.forEach((bullet, bulletIndex) => {
+    targets.forEach((target, targetIndex) => {
+      if (target.number === currentNumberPrompt) {
+        target.balls.forEach((ball, ballIndex) => {
+          const dx = ball.x - bullet.x;
+          const dy = ball.y - bullet.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 10) {
+            // Hit the right target
+            target.balls.splice(ballIndex, 1);
+            numberPlayer.bullets.splice(bulletIndex, 1);
+            numberScore++;
+            document.getElementById("numberScore").innerText = "Score: " + numberScore;
+
+            if (target.balls.length === 0) {
+              targets.splice(targetIndex, 1);
+              setNewNumberPrompt();
+            }
+          }
+        });
+      }
+    });
+  });
+}
+
+function gameLoopNumberShooter() {
+  updateNumberShooterGame();
+  drawNumberShooterGame();
+  games.numberShooterGameLoop = requestAnimationFrame(gameLoopNumberShooter);
+}
+
+function startNumberShooterGame() {
+  numberScore = 0;
+  numberPlayer.bullets = [];
+  generateNumberTargets();
+  setNewNumberPrompt();
+  gameLoopNumberShooter();
+}
+
+// Player controls
+document.addEventListener("keydown", e => {
+  if (document.getElementById("numberShooterGame").classList.contains("hidden")) return;
+  if (e.key === "ArrowLeft") numberPlayer.x -= 10;
+  if (e.key === "ArrowRight") numberPlayer.x += 10;
+  if (e.key === " ") {
+    numberPlayer.bullets.push({ x: numberPlayer.x + 7, y: numberPlayer.y - 10 });
+  }
+});
+
+/* ============================
+   CONFETTI EFFECT (Reward)
+=============================== */
+
+function confettiBurst() {
+  const confettiCanvas = document.createElement("canvas");
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+  confettiCanvas.style.position = "fixed";
+  confettiCanvas.style.top = "0";
+  confettiCanvas.style.left = "0";
+  confettiCanvas.style.pointerEvents = "none";
+  document.body.appendChild(confettiCanvas);
+
+  const cctx = confettiCanvas.getContext("2d");
+  const pieces = [];
+
+  for (let i = 0; i < 150; i++) {
+    pieces.push({
+      x: Math.random() * confettiCanvas.width,
+      y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+      size: Math.random() * 8 + 4,
+      speed: Math.random() * 3 + 2,
+      color: `hsl(${Math.random() * 360}, 100%, 50%)`
+    });
+  }
+
+  function animateConfetti() {
+    cctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    pieces.forEach(p => {
+      p.y += p.speed;
+      cctx.fillStyle = p.color;
+      cctx.fillRect(p.x, p.y, p.size, p.size);
+    });
+    requestAnimationFrame(animateConfetti);
+  }
+
+  animateConfetti();
+
+  setTimeout(() => confettiCanvas.remove(), 1000);
+}
 </script>
+</body>
+</html>

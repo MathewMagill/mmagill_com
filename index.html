@@ -152,8 +152,11 @@ function showTypingGame() {
   document.getElementById("typingGame").classList.remove("hidden");
 }
 
-function returnToMenu() {
-  location.reload(); // easiest full reset
+function showNumberShooterGame() {
+  document.getElementById("menu").classList.add("hidden");
+  document.getElementById("numberShooterGame").classList.remove("hidden");
+
+  startNumberShooterGame(); // Initialize the game when shown
 }
 
 /* ============================

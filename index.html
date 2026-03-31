@@ -32,7 +32,7 @@ canvas { background: #eef; display: block; margin: 10px auto; }
 .red { color: red; }
 .black { color: black; }
 
-/* Touch controller */
+/* Touch controllers */
 #touchControls {
   margin-top: 10px;
 }
@@ -120,7 +120,7 @@ body, button, canvas, div, input {
 
 <script>
 /* ============================
-   PAGE SWITCHING
+   PAGE SWITCHING LOGIC
 =============================== */
 const games = {
   blobGameLoop: null,
@@ -159,9 +159,6 @@ function stopAllGames() {
   if (games.blobGameLoop) cancelAnimationFrame(games.blobGameLoop);
   if (games.numberShooterGameLoop) cancelAnimationFrame(games.numberShooterGameLoop);
 }
-
-
-
 
 /* ============================
    BLOB GAME LOGIC

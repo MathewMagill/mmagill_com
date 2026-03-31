@@ -517,6 +517,25 @@ let currentNumberPrompt = Math.floor(Math.random() * 5) + 1;
 const numberCanvas = document.getElementById("numberCanvas");
 const numberCtx = numberCanvas.getContext("2d");
 
+const BALL_RADIUS = 10;
+const STACK_TOP_PADDING = 30;
+const STACK_SPACING_X = 100;
+const BALL_SPACING_Y = 22;
+const LABEL_OFFSET = 5; // gap between label bottom and first ball top
+
+// Returns an array of ball objects forming a vertical stack for the given number.
+function makeStack(number) {
+  const balls = [];
+  for (let j = 0; j < number; j++) {
+    balls.push({
+      x: STACK_SPACING_X * number,
+      y: STACK_TOP_PADDING + BALL_SPACING_Y * j,
+      radius: BALL_RADIUS
+    });
+  }
+  return balls;
+}
+
 function setNewNumberPrompt() {
   currentNumberPrompt = Math.floor(Math.random() * 5) + 1;
   document.getElementById("numberPrompt").innerText = "Shoot: " + numberPromptMap[currentNumberPrompt];
@@ -525,11 +544,7 @@ function setNewNumberPrompt() {
 function generateNumberTargets() {
   targets = [];
   for (let i = 1; i <= 5; i++) {
-    let balls = [];
-    for (let j = 0; j < i; j++) {
-      balls.push({ x: 100 * i, y: 20 * j, width: 20, height: 20 });
-    }
-    targets.push({ number: i, balls });
+    targets.push({ number: i, balls: makeStack(i) });
   }
 }
 
@@ -550,9 +565,16 @@ function drawNumberShooterGame() {
 
   // Draw targets
   targets.forEach(target => {
+    // Draw Arabic numeral label above the stack
+    numberCtx.font = "20px Arial";
+    numberCtx.fillStyle = "black";
+    numberCtx.textAlign = "center";
+    numberCtx.textBaseline = "bottom";
+    numberCtx.fillText(String(target.number), STACK_SPACING_X * target.number, STACK_TOP_PADDING - LABEL_OFFSET);
+
     target.balls.forEach(ball => {
       numberCtx.beginPath();
-      numberCtx.arc(ball.x, ball.y, ball.width / 2, 0, Math.PI * 2);
+      numberCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
       numberCtx.fillStyle = "green";
       numberCtx.fill();
     });
@@ -577,7 +599,7 @@ function updateNumberShooterGame() {
             document.getElementById("numberScore").innerText = "Score: " + numberScore;
 
             if (target.balls.length === 0) {
-              targets.splice(targetIndex, 1);
+              target.balls = makeStack(target.number);
               setNewNumberPrompt();
             }
           }

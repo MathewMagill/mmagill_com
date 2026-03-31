@@ -626,10 +626,13 @@ function drawNumberShooterGame() {
 }
 
 function updateNumberShooterGame() {
+  const level2Unlocked = numberScore >= 25;
+
   // Collisions
   numberPlayer.bullets.forEach((bullet, bulletIndex) => {
     targets.forEach(target => {
-      if (target.number !== currentNumberPrompt) return;
+      // Level 1: only the correct target can be hit
+      if (!level2Unlocked && target.number !== currentNumberPrompt) return;
 
       // iterate backwards since we may splice
       for (let ballIndex = target.balls.length - 1; ballIndex >= 0; ballIndex--) {
@@ -640,26 +643,36 @@ function updateNumberShooterGame() {
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < BALL_RADIUS) {
+          // visual effect
           spawnBurst(ball.x, ball.y);
 
+          // remove hit ball + bullet
           target.balls.splice(ballIndex, 1);
           numberPlayer.bullets.splice(bulletIndex, 1);
 
-          numberScore++;
-          document.getElementById("numberScore").innerText =
-            "Score: " + numberScore;
+          // scoring
+          const isCorrectTarget = target.number === currentNumberPrompt;
+          if (isCorrectTarget) {
+            numberScore += 1;
+          } else {
+            numberScore -= 1;
+          }
 
+          // update UI
+          document.getElementById("numberScore").innerText = "Score: " + numberScore;
+
+          // if stack cleared, replenish. Only advance prompt if they cleared the CORRECT stack
           if (target.balls.length === 0) {
             setTimeout(() => {
               target.balls = makeStack(target.number);
             }, REPLENISH_DELAY_MS);
 
-            setNewNumberPrompt();
-
-            // Clear splatter after a short delay so it remains visible
-            setTimeout(() => {
-              hitParticles = [];
-            }, CLEAR_SPLATTER_AFTER_TURN_MS);
+            if (isCorrectTarget) {
+              setNewNumberPrompt();
+              setTimeout(() => {
+                hitParticles = [];
+              }, CLEAR_SPLATTER_AFTER_TURN_MS);
+            }
           }
 
           // stop after first hit for this bullet

@@ -593,11 +593,6 @@ function drawNumberShooterGame() {
     numberCtx.textAlign = "center";
     numberCtx.textBaseline = "bottom";
     numberCtx.fillText(String(target.number), STACK_SPACING_X * target.number, STACK_TOP_PADDING - LABEL_OFFSET);
-
-hitParticles.forEach(p => {
-  numberCtx.fillStyle = p.color;
-  numberCtx.fillRect(p.x, p.y, p.size, p.size);
-});
     
     target.balls.forEach(ball => {
       numberCtx.beginPath();
@@ -607,7 +602,11 @@ hitParticles.forEach(p => {
     });
   });
 }
-
+hitParticles.forEach(p => {
+  numberCtx.fillStyle = p.color;
+  numberCtx.fillRect(p.x, p.y, p.size, p.size);
+});
+  
 function updateNumberShooterGame() {
   // Bullet and target collision
   numberPlayer.bullets.forEach((bullet, bulletIndex) => {
@@ -625,15 +624,7 @@ function updateNumberShooterGame() {
             numberPlayer.bullets.splice(bulletIndex, 1);
             numberScore++;
             document.getElementById("numberScore").innerText = "Score: " + numberScore;
-            hitParticles = hitParticles
-  .map(p => {
-    p.x += p.vx; p.y += p.vy;
-    p.vy += 0.08;
-    p.vx *= 0.98; p.vy *= 0.98;
-    p.life--;
-    return p.life > 0 ? p : null;
-  })
-  .filter(Boolean);
+            
 
             if (target.balls.length === 0) {
   setTimeout(() => {
@@ -647,7 +638,15 @@ function updateNumberShooterGame() {
       }
     });
   });
-}
+hitParticles = hitParticles
+  .map(p => {
+    p.x += p.vx; p.y += p.vy;
+    p.vy += 0.08;
+    p.vx *= 0.98; p.vy *= 0.98;
+    p.life--;
+    return p.life > 0 ? p : null;
+  })
+  .filter(Boolean);}
 
 function gameLoopNumberShooter() {
   updateNumberShooterGame();

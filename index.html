@@ -521,7 +521,23 @@ const BALL_RADIUS = 10;
 const STACK_TOP_PADDING = 30;
 const STACK_SPACING_X = 100;
 const BALL_SPACING_Y = 22;
-const LABEL_OFFSET = 5; // gap between label bottom and first ball top
+const LABEL_OFFSET = 18; // gap between label bottom and first ball top
+const STACK_REPLENISH_DELAY = 300; // ms to show empty stack before refilling
+const EXPLOSION_PARTICLE_COUNT = 10;
+const PARTICLE_LIFETIME = 18; // frames a particle lives
+
+let particles = [];
+
+function spawnExplosion(x, y) {
+  for (let i = 0; i < EXPLOSION_PARTICLE_COUNT; i++) {
+    particles.push({
+      x, y,
+      vx: (Math.random() - 0.5) * 5,
+      vy: (Math.random() - 0.5) * 5,
+      life: PARTICLE_LIFETIME
+    });
+  }
+}
 
 // Returns an array of ball objects forming a vertical stack for the given number.
 function makeStack(number) {
@@ -544,7 +560,7 @@ function setNewNumberPrompt() {
 function generateNumberTargets() {
   targets = [];
   for (let i = 1; i <= 5; i++) {
-    targets.push({ number: i, balls: makeStack(i) });
+    targets.push({ number: i, balls: makeStack(i), replenishing: false });
   }
 }
 
@@ -579,6 +595,15 @@ function drawNumberShooterGame() {
       numberCtx.fill();
     });
   });
+
+  // Draw and age explosion particles
+  particles = particles.filter(p => p.life-- > 0);
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    numberCtx.fillStyle = `rgba(255, 140, 0, ${p.life / PARTICLE_LIFETIME})`;
+    numberCtx.fillRect(p.x - 2, p.y - 2, 4, 4);
+  });
 }
 
 function updateNumberShooterGame() {
@@ -593,14 +618,19 @@ function updateNumberShooterGame() {
 
           if (dist < 10) {
             // Hit the right target
+            spawnExplosion(ball.x, ball.y);
             target.balls.splice(ballIndex, 1);
             numberPlayer.bullets.splice(bulletIndex, 1);
             numberScore++;
             document.getElementById("numberScore").innerText = "Score: " + numberScore;
 
-            if (target.balls.length === 0) {
-              target.balls = makeStack(target.number);
+            if (target.balls.length === 0 && !target.replenishing) {
+              target.replenishing = true;
               setNewNumberPrompt();
+              setTimeout(() => {
+                target.balls = makeStack(target.number);
+                target.replenishing = false;
+              }, STACK_REPLENISH_DELAY);
             }
           }
         });
@@ -618,6 +648,7 @@ function gameLoopNumberShooter() {
 function startNumberShooterGame() {
   numberScore = 0;
   numberPlayer.bullets = [];
+  particles = [];
   generateNumberTargets();
   setNewNumberPrompt();
   gameLoopNumberShooter();

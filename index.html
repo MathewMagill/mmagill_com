@@ -521,12 +521,20 @@ const numberCanvas = document.getElementById("numberCanvas");
 const numberCtx = numberCanvas.getContext("2d");
 
 const BALL_RADIUS = 10;
-const STACK_TOP_PADDING = 30;
+
+// Moved stacks DOWN to create more room for pinyin tone marks:
+const STACK_TOP_PADDING = 55;
+
 const STACK_SPACING_X = 100;
 const BALL_SPACING_Y = 22;
-const LABEL_OFFSET = 9; // gap between label bottom and first ball top
+
+// Moved pinyin label slightly UP (more separation from balls):
+const LABEL_OFFSET = 14;
 
 const REPLENISH_DELAY_MS = 250;
+
+// How long splatter stays visible after you finish a stack (end of turn):
+const CLEAR_SPLATTER_AFTER_TURN_MS = 500;
 
 // ----------------------------
 // Hit burst particles
@@ -614,7 +622,7 @@ function drawNumberShooterGame() {
     });
   });
 
-  // Draw burst particles (always inside draw)
+  // Draw burst particles (splatter)
   hitParticles.forEach(p => {
     numberCtx.fillStyle = p.color;
     numberCtx.fillRect(p.x, p.y, p.size, p.size);
@@ -644,64 +652,9 @@ function updateNumberShooterGame() {
           document.getElementById("numberScore").innerText =
             "Score: " + numberScore;
 
-          // if stack cleared, replenish + new prompt, and clear splatter
-          if (target.balls.length === 0) {
-            setTimeout(() => {
-              target.balls = makeStack(target.number);
-            }, REPLENISH_DELAY_MS);
-
-            setNewNumberPrompt();
-            hitParticles = []; // clear splatter at end of turn
-          }
-        }
-      });
-    });
-  });
-
-  // Update burst particles (every frame)
-  hitParticles = hitParticles
-    .map(p => {
-      p.x += p.vx;
-      p.y += p.vy;
-
-      p.vy += 0.08; // gravity
-      p.vx *= 0.98; // drag
-      p.vy *= 0.98;
-
-      p.life--;
-      return p.life > 0 ? p : null;
-    })
-    .filter(Boolean);
-}
-
-function gameLoopNumberShooter() {
-  updateNumberShooterGame();
-  drawNumberShooterGame();
-  games.numberShooterGameLoop = requestAnimationFrame(gameLoopNumberShooter);
-}
-
-function startNumberShooterGame() {
-  numberScore = 0;
-  numberPlayer.bullets = [];
-  generateNumberTargets();
-  setNewNumberPrompt();
-  document.getElementById("numberScore").innerText = "Score: 0";
-  gameLoopNumberShooter();
-}
-
-// Player controls
-document.addEventListener("keydown", e => {
-  if (document.getElementById("numberShooterGame").classList.contains("hidden"))
-    return;
-
-  if (e.key === "ArrowLeft") numberPlayer.x -= 10;
-  if (e.key === "ArrowRight") numberPlayer.x += 10;
-
-  if (e.key === " ") {
-    numberPlayer.bullets.push({ x: numberPlayer.x + 7, y: numberPlayer.y - 10 });
-  }
-});
-
+          // End of turn: stack cleared
+          if (target.b*
+
 /* ============================
    CONFETTI EFFECT (Reward)
 =============================== */

@@ -521,7 +521,18 @@ const BALL_RADIUS = 10;
 const STACK_TOP_PADDING = 30;
 const STACK_SPACING_X = 100;
 const BALL_SPACING_Y = 22;
-const LABEL_OFFSET = 5; // gap between label bottom and first ball top
+const LABEL_OFFSET = 18; // gap between label bottom and first ball top
+
+  const REPLENISH_DELAY_MS = 250;
+
+  if (target.balls.length === 0) {
+  // brief pause so the player can see the stack cleared
+  setTimeout(() => {
+    target.balls = makeStack(target.number);
+  }, REPLENISH_DELAY_MS);
+
+  setNewNumberPrompt();
+}
 
 // Returns an array of ball objects forming a vertical stack for the given number.
 function makeStack(number) {

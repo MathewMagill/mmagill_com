@@ -522,16 +522,19 @@ const STACK_TOP_PADDING = 30;
 const STACK_SPACING_X = 100;
 const BALL_SPACING_Y = 22;
 const LABEL_OFFSET = 20; // gap between label bottom and first ball top
+const REPLENISH_DELAY_MS = 300; // ms to show cleared stack before refilling
+const PARTICLE_COUNT = 12; // particles per explosion
+const PARTICLE_LIFETIME = 18; // frames each particle lives
 
 let particles = []; // explosion particles
 
 function spawnExplosion(x, y) {
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
     particles.push({
       x, y,
       vx: (Math.random() - 0.5) * 4,
       vy: (Math.random() - 0.5) * 4,
-      life: 18
+      life: PARTICLE_LIFETIME
     });
   }
 }
@@ -595,10 +598,9 @@ function drawNumberShooterGame() {
   });
 
   // Draw and age explosion particles
-  particles = particles.filter(p => p.life-- > 0);
+  particles.forEach(p => { p.life--; p.x += p.vx; p.y += p.vy; });
+  particles = particles.filter(p => p.life > 0);
   particles.forEach(p => {
-    p.x += p.vx;
-    p.y += p.vy;
     numberCtx.fillStyle = "orange";
     numberCtx.fillRect(p.x - 1.5, p.y - 1.5, 3, 3);
   });
@@ -629,7 +631,7 @@ function updateNumberShooterGame() {
               setTimeout(() => {
                 target.balls = makeStack(target.number);
                 target.replenishing = false;
-              }, 300);
+              }, REPLENISH_DELAY_MS);
             }
           }
         });

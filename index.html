@@ -521,7 +521,20 @@ const BALL_RADIUS = 10;
 const STACK_TOP_PADDING = 30;
 const STACK_SPACING_X = 100;
 const BALL_SPACING_Y = 22;
-const LABEL_OFFSET = 5; // gap between label bottom and first ball top
+const LABEL_OFFSET = 20; // gap between label bottom and first ball top
+
+let particles = []; // explosion particles
+
+function spawnExplosion(x, y) {
+  for (let i = 0; i < 12; i++) {
+    particles.push({
+      x, y,
+      vx: (Math.random() - 0.5) * 4,
+      vy: (Math.random() - 0.5) * 4,
+      life: 18
+    });
+  }
+}
 
 // Returns an array of ball objects forming a vertical stack for the given number.
 function makeStack(number) {
@@ -543,8 +556,9 @@ function setNewNumberPrompt() {
 
 function generateNumberTargets() {
   targets = [];
+  particles = [];
   for (let i = 1; i <= 5; i++) {
-    targets.push({ number: i, balls: makeStack(i) });
+    targets.push({ number: i, balls: makeStack(i), replenishing: false });
   }
 }
 
@@ -579,12 +593,22 @@ function drawNumberShooterGame() {
       numberCtx.fill();
     });
   });
+
+  // Draw and age explosion particles
+  particles = particles.filter(p => p.life-- > 0);
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    numberCtx.fillStyle = "orange";
+    numberCtx.fillRect(p.x - 1.5, p.y - 1.5, 3, 3);
+  });
 }
 
 function updateNumberShooterGame() {
   // Bullet and target collision
   numberPlayer.bullets.forEach((bullet, bulletIndex) => {
     targets.forEach((target, targetIndex) => {
+      if (target.replenishing) return;
       if (target.number === currentNumberPrompt) {
         target.balls.forEach((ball, ballIndex) => {
           const dx = ball.x - bullet.x;
@@ -593,14 +617,19 @@ function updateNumberShooterGame() {
 
           if (dist < 10) {
             // Hit the right target
+            spawnExplosion(ball.x, ball.y);
             target.balls.splice(ballIndex, 1);
             numberPlayer.bullets.splice(bulletIndex, 1);
             numberScore++;
             document.getElementById("numberScore").innerText = "Score: " + numberScore;
 
             if (target.balls.length === 0) {
-              target.balls = makeStack(target.number);
+              target.replenishing = true;
               setNewNumberPrompt();
+              setTimeout(() => {
+                target.balls = makeStack(target.number);
+                target.replenishing = false;
+              }, 300);
             }
           }
         });

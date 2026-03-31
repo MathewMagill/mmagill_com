@@ -221,7 +221,12 @@ const ctx = canvas.getContext("2d");
 let player = { x: 300, y: 200, size: 20, speed: 3 };
 let keys = {};
 
-document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keydown", e => {
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+    e.preventDefault(); // Disable the default scrolling behavior
+  }
+  keys[e.key] = true;
+});
 document.addEventListener("keyup", e => keys[e.key] = false);
 
 /* TOUCH CONTROLS — continuous movement */

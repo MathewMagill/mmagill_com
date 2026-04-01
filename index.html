@@ -226,14 +226,21 @@ function stopAllGames() {
 const dinoCanvas = document.getElementById("dinoCanvas");
 const dinoCtx = dinoCanvas.getContext("2d");
 
-const dinoChars = ["six", "seven", "eight", "nine", "ten"];
+const dinoPromptChars = ["六", "七", "八", "九", "十"];
+
+const dinoEnglishMap = {
+  "六": "six",
+  "七": "seven",
+  "八": "eight",
+  "九": "nine",
+  "十": "ten"
+};
 
 let dinoState = null;
 
 function pickNewDinoTarget(prev = null) {
   let c = prev;
-  while (c === prev) c = dinoChars[Math.floor(Math.random() * dinoChars.length)];
-  return c;
+while (c === prev) c = dinoPromptChars[Math.floor(Math.random() * dinoPromptChars.length)];
 }
 
 function resetDinoGameState() {
@@ -266,7 +273,7 @@ function resetDinoGameState() {
 
 function spawnToken() {
   const correct = Math.random() < 0.35;
-  const char = correct ? dinoState.targetChar : dinoChars[Math.floor(Math.random() * dinoChars.length)];
+ const char = correct ? dinoState.targetChar : dinoPromptChars[Math.floor(Math.random() * dinoPromptChars.length)];
 
   // ensure wrong token isn't accidentally same as target
   const finalChar = correct ? char : (char === dinoState.targetChar ? pickNewDinoTarget(dinoState.targetChar) : char);
@@ -362,7 +369,7 @@ function drawDinoGame() {
     dinoCtx.font = "18px kaiti, serif";
     dinoCtx.textAlign = "center";
     dinoCtx.textBaseline = "middle";
-    dinoCtx.fillText(t.char, t.x, t.y + 1);
+   dinoCtx.fillText(dinoEnglishMap[t.char] || t.char, t.x, t.y + 1);
   });
 
   if (dinoState.gameOver) {

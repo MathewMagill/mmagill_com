@@ -19,6 +19,15 @@
   padding: 10px 14px;   /* extra breathing room inside */
 }
 
+#dinoPrompt {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.15;
+  font: kaiti;
+  margin: 26px 0 10px;
+  padding: 10px 14px;
+}
+
 body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
 .hidden { display: none; }
 button {
@@ -71,6 +80,7 @@ body, button, canvas, div, input {
   <button onclick="showBlobGame()">Fruit Blob Game</button>
   <button onclick="showTypingGame()">Fruit Typing Game</button>
   <button onclick="showNumberShooterGame()">Numbers Shooter Game</button>
+  <button onclick="showDinoGame()">Dino Run Game</button>
 </div>
 
 <!-- ============================
@@ -98,7 +108,7 @@ body, button, canvas, div, input {
   </div>
 </div>
 
-<button onclick="returnToMenu()">Return to Menu</button>
+  <button onclick="returnToMenu()">Return to Menu</button>
 </div>
 
 <!-- ============================
@@ -139,13 +149,27 @@ body, button, canvas, div, input {
 
   <button onclick="returnToMenu()">Return to Menu</button>
 </div>
+
+<!-- ============================
+     DINO RUN GAME
+=============================== -->
+<div id="dinoGame" class="hidden">
+  <h1>Dino Run Game</h1>
+  <p>Keyboard only: <strong>Space</strong> to jump, <strong>Enter</strong> to restart after game over.</p>
+  <div id="dinoPrompt"></div>
+  <div id="dinoScore">Score: 0</div>
+  <canvas id="dinoCanvas" width="600" height="400"></canvas>
+  <button onclick="returnToMenu()">Return to Menu</button>
+</div>
+
 <script>
 /* ============================
    PAGE SWITCHING LOGIC
 =============================== */
 const games = {
   blobGameLoop: null,
-  numberShooterGameLoop: null
+  numberShooterGameLoop: null,
+  dinoGameLoop: null
 };
 
 function showBlobGame() {
@@ -171,19 +195,222 @@ function showNumberShooterGame() {
   startNumberShooterGame();
 }
 
+function showDinoGame() {
+  console.log("Dino Game Button Clicked!");
+  stopAllGames();
+  document.getElementById("menu").classList.add("hidden");
+  document.getElementById("dinoGame").classList.remove("hidden");
+  startDinoGame();
+}
+
 function returnToMenu() {
   stopAllGames();
   document.getElementById("menu").classList.remove("hidden");
   document.getElementById("blobGame").classList.add("hidden");
   document.getElementById("typingGame").classList.add("hidden");
   document.getElementById("numberShooterGame").classList.add("hidden");
+  document.getElementById("dinoGame").classList.add("hidden");
 }
 
 function stopAllGames() {
   if (games.blobGameLoop) cancelAnimationFrame(games.blobGameLoop);
   if (games.numberShooterGameLoop) cancelAnimationFrame(games.numberShooterGameLoop);
+  if (games.dinoGameLoop) cancelAnimationFrame(games.dinoGameLoop);
 }
 </script>
+
+<script>
+/* ============================
+   DINO RUN GAME
+=============================== */
+const dinoCanvas = document.getElementById("dinoCanvas");
+const dinoCtx = dinoCanvas.getContext("2d");
+
+const dinoChars = ["六", "七", "八", "九", "十"];
+
+let dinoState = null;
+
+function pickNewDinoTarget(prev = null) {
+  let c = prev;
+  while (c === prev) c = dinoChars[Math.floor(Math.random() * dinoChars.length)];
+  return c;
+}
+
+function resetDinoGameState() {
+  dinoState = {
+    running: true,
+    gameOver: false,
+    score: 0,
+    groundY: 330,
+    gravity: 0.75,
+    jumpVel: -13.5,
+    speed: 4,
+    spawnEvery: 85,
+    frame: 0,
+    targetChar: pickNewDinoTarget(null),
+    dino: {
+      x: 80,
+      y: 0,
+      w: 30,
+      h: 40,
+      vy: 0,
+      onGround: true
+    },
+    tokens: []
+  };
+
+  dinoState.dino.y = dinoState.groundY - dinoState.dino.h;
+  document.getElementById("dinoScore").innerText = "Score: 0";
+  document.getElementById("dinoPrompt").innerText = "Collect: " + dinoState.targetChar;
+}
+
+function spawnToken() {
+  const correct = Math.random() < 0.35;
+  const char = correct ? dinoState.targetChar : dinoChars[Math.floor(Math.random() * dinoChars.length)];
+
+  // ensure wrong token isn't accidentally same as target
+  const finalChar = correct ? char : (char === dinoState.targetChar ? pickNewDinoTarget(dinoState.targetChar) : char);
+
+  dinoState.tokens.push({
+    x: dinoCanvas.width + 20,
+    y: dinoState.groundY - 110,
+    r: 16,
+    char: finalChar
+  });
+}
+
+function rectCircleCollide(rx, ry, rw, rh, cx, cy, cr) {
+  const closestX = Math.max(rx, Math.min(cx, rx + rw));
+  const closestY = Math.max(ry, Math.min(cy, ry + rh));
+  const dx = cx - closestX;
+  const dy = cy - closestY;
+  return dx * dx + dy * dy <= cr * cr;
+}
+
+function updateDinoGame() {
+  if (!dinoState || dinoState.gameOver) return;
+
+  const d = dinoState.dino;
+  d.vy += dinoState.gravity;
+  d.y += d.vy;
+
+  // ground collision
+  const groundTop = dinoState.groundY - d.h;
+  if (d.y >= groundTop) {
+    d.y = groundTop;
+    d.vy = 0;
+    d.onGround = true;
+  } else {
+    d.onGround = false;
+  }
+
+  // spawn
+  dinoState.frame++;
+  if (dinoState.frame % dinoState.spawnEvery === 0) spawnToken();
+
+  // move tokens
+  dinoState.tokens.forEach(t => (t.x -= dinoState.speed));
+  dinoState.tokens = dinoState.tokens.filter(t => t.x > -50);
+
+  // collisions
+  for (let i = dinoState.tokens.length - 1; i >= 0; i--) {
+    const t = dinoState.tokens[i];
+    const hit = rectCircleCollide(d.x, d.y, d.w, d.h, t.x, t.y, t.r);
+    if (!hit) continue;
+
+    if (t.char === dinoState.targetChar) {
+      dinoState.score++;
+      document.getElementById("dinoScore").innerText = "Score: " + dinoState.score;
+      dinoState.targetChar = pickNewDinoTarget(dinoState.targetChar);
+      document.getElementById("dinoPrompt").innerText = "Collect: " + dinoState.targetChar;
+      dinoState.tokens.splice(i, 1);
+    } else {
+      // Wrong pickup = game over (simple + clear rule)
+      dinoState.gameOver = true;
+      dinoState.running = false;
+      break;
+    }
+  }
+}
+
+function drawDinoGame() {
+  if (!dinoState) return;
+
+  dinoCtx.clearRect(0, 0, dinoCanvas.width, dinoCanvas.height);
+
+  // ground
+  dinoCtx.fillStyle = "#cfc";
+  dinoCtx.fillRect(0, dinoState.groundY, dinoCanvas.width, dinoCanvas.height - dinoState.groundY);
+  dinoCtx.strokeStyle = "#444";
+  dinoCtx.beginPath();
+  dinoCtx.moveTo(0, dinoState.groundY);
+  dinoCtx.lineTo(dinoCanvas.width, dinoState.groundY);
+  dinoCtx.stroke();
+
+  // dino
+  dinoCtx.fillStyle = "#222";
+  dinoCtx.fillRect(dinoState.dino.x, dinoState.dino.y, dinoState.dino.w, dinoState.dino.h);
+
+  // tokens
+  dinoState.tokens.forEach(t => {
+    dinoCtx.beginPath();
+    dinoCtx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
+    dinoCtx.fillStyle = t.char === dinoState.targetChar ? "#ffef99" : "#f9b7b7";
+    dinoCtx.fill();
+
+    dinoCtx.fillStyle = "#111";
+    dinoCtx.font = "18px kaiti, serif";
+    dinoCtx.textAlign = "center";
+    dinoCtx.textBaseline = "middle";
+    dinoCtx.fillText(t.char, t.x, t.y + 1);
+  });
+
+  if (dinoState.gameOver) {
+    dinoCtx.fillStyle = "rgba(0,0,0,0.65)";
+    dinoCtx.fillRect(0, 0, dinoCanvas.width, dinoCanvas.height);
+    dinoCtx.fillStyle = "#fff";
+    dinoCtx.font = "26px Arial";
+    dinoCtx.textAlign = "center";
+    dinoCtx.textBaseline = "middle";
+    dinoCtx.fillText("Game Over", dinoCanvas.width / 2, dinoCanvas.height / 2 - 20);
+    dinoCtx.font = "18px Arial";
+    dinoCtx.fillText("Press Enter to Restart", dinoCanvas.width / 2, dinoCanvas.height / 2 + 16);
+  }
+}
+
+function gameLoopDino() {
+  updateDinoGame();
+  drawDinoGame();
+  games.dinoGameLoop = requestAnimationFrame(gameLoopDino);
+}
+
+function startDinoGame() {
+  resetDinoGameState();
+  gameLoopDino();
+}
+
+document.addEventListener("keydown", e => {
+  // Only handle keys when Dino game is visible
+  if (document.getElementById("dinoGame").classList.contains("hidden")) return;
+
+  // prevent scroll on Space
+  if (e.key === " " || e.code === "Space") e.preventDefault();
+
+  if (!dinoState) return;
+
+  if (!dinoState.gameOver) {
+    if ((e.key === " " || e.code === "Space") && dinoState.dino.onGround) {
+      dinoState.dino.vy = dinoState.jumpVel;
+      dinoState.dino.onGround = false;
+    }
+  } else {
+    if (e.key === "Enter") {
+      resetDinoGameState();
+    }
+  }
+});
+</script>
+
 <script>
 /* ============================
    BLOB GAME LOGIC
@@ -378,26 +605,14 @@ function startBlobGame() {
   document.getElementById("prompt").innerText = currentPrompt.chinese;
   document.getElementById("pinyin").innerText = currentPrompt.pinyin;
   document.getElementById("score").innerText = "Score: 0";
-  gameLoopBlob();
-}
 
-  function startBlobGame() {
-  score = 0;
-  level = 1;
-  player = { x: 300, y: 200, size: 20, speed: 3 };
-  fruits = [];
-  for (let i = 0; i < 5; i++) spawnFruit();
-  currentPrompt = randomPrompt();
-  document.getElementById("prompt").innerText = currentPrompt.chinese;
-  document.getElementById("pinyin").innerText = currentPrompt.pinyin;
-  document.getElementById("score").innerText = "Score: 0";
-
-  setupBlobTouchControls();   // <-- add this
+  setupBlobTouchControls();
 
   gameLoopBlob();
 }
-  
-</script><script>
+</script>
+
+<script>
 /* ============================
    TYPING GAME LOGIC
 =============================== */

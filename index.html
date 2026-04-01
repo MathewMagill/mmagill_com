@@ -226,8 +226,10 @@ function stopAllGames() {
 const dinoCanvas = document.getElementById("dinoCanvas");
 const dinoCtx = dinoCanvas.getContext("2d");
 
+// Prompt stays Chinese:
 const dinoPromptChars = ["六", "七", "八", "九", "十"];
 
+// Tokens display English:
 const dinoEnglishMap = {
   "六": "six",
   "七": "seven",
@@ -240,12 +242,12 @@ let dinoState = null;
 
 function pickNewDinoTarget(prev = null) {
   let c = prev;
-while (c === prev) c = dinoPromptChars[Math.floor(Math.random() * dinoPromptChars.length)];
+  while (c === prev) c = dinoPromptChars[Math.floor(Math.random() * dinoPromptChars.length)];
+  return c;
 }
 
 function resetDinoGameState() {
   dinoState = {
-    running: true,
     gameOver: false,
     score: 0,
     groundY: 330,
@@ -273,7 +275,10 @@ function resetDinoGameState() {
 
 function spawnToken() {
   const correct = Math.random() < 0.35;
- const char = correct ? dinoState.targetChar : dinoPromptChars[Math.floor(Math.random() * dinoPromptChars.length)];
+
+  const char = correct
+    ? dinoState.targetChar
+    : dinoPromptChars[Math.floor(Math.random() * dinoPromptChars.length)];
 
   // ensure wrong token isn't accidentally same as target
   const finalChar = correct ? char : (char === dinoState.targetChar ? pickNewDinoTarget(dinoState.targetChar) : char);
@@ -282,7 +287,7 @@ function spawnToken() {
     x: dinoCanvas.width + 20,
     y: dinoState.groundY - 110,
     r: 16,
-    char: finalChar
+    char: finalChar // stored as Chinese internally
   });
 }
 
@@ -328,13 +333,14 @@ function updateDinoGame() {
     if (t.char === dinoState.targetChar) {
       dinoState.score++;
       document.getElementById("dinoScore").innerText = "Score: " + dinoState.score;
+
       dinoState.targetChar = pickNewDinoTarget(dinoState.targetChar);
       document.getElementById("dinoPrompt").innerText = "Collect: " + dinoState.targetChar;
+
       dinoState.tokens.splice(i, 1);
     } else {
-      // Wrong pickup = game over (simple + clear rule)
+      // Wrong pickup = game over
       dinoState.gameOver = true;
-      dinoState.running = false;
       break;
     }
   }
@@ -366,10 +372,13 @@ function drawDinoGame() {
     dinoCtx.fill();
 
     dinoCtx.fillStyle = "#111";
-    dinoCtx.font = "18px kaiti, serif";
+    dinoCtx.font = "18px Arial";
     dinoCtx.textAlign = "center";
     dinoCtx.textBaseline = "middle";
-   dinoCtx.fillText(dinoEnglishMap[t.char] || t.char, t.x, t.y + 1);
+
+    // draw English word for the Chinese value
+    const display = dinoEnglishMap[t.char] || t.char;
+    dinoCtx.fillText(display, t.x, t.y + 1);
   });
 
   if (dinoState.gameOver) {
@@ -417,8 +426,6 @@ document.addEventListener("keydown", e => {
   }
 });
 </script>
-
-<script>
 /* ============================
    BLOB GAME LOGIC
 =============================== */

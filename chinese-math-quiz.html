@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinese Math Input Quiz</title>
+  <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+  <link rel="shortcut icon" href="android-chrome-512x512.png">
+  <link rel="apple-touch-icon" href="android-chrome-512x512.png">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", Calibri, Arial, sans-serif;
+      background: linear-gradient(135deg, #e8f0ff, #ffffff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+
+    .quiz-card {
+      width: min(640px, 100%);
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: #0056b3;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .back-link:focus-visible,
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid #0056b3;
+      outline-offset: 2px;
+    }
+
+    .level-controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .level-btn {
+      border: 2px solid #b7c7e6;
+      border-radius: 10px;
+      background: #f7faff;
+      padding: 10px 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .level-btn.active {
+      border-color: #0056b3;
+      background: #dce9ff;
+    }
+
+    #quizArea {
+      border: 2px solid #e3e8f2;
+      border-radius: 12px;
+      padding: 18px;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    #questionPrompt {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 8px 0 14px;
+      text-align: center;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #answerInput {
+      width: min(320px, 100%);
+      font-size: 1.4rem;
+      padding: 10px 12px;
+      border: 2px solid #b7c7e6;
+      border-radius: 10px;
+      text-align: center;
+      color: #111;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", Calibri, Arial, sans-serif;
+    }
+
+    .action-btn {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #submitBtn {
+      background: #0056b3;
+      color: #fff;
+    }
+
+    #tryAgainBtn {
+      background: #ffcf57;
+      color: #4f3900;
+      margin-top: 10px;
+      display: none;
+    }
+
+    #feedback {
+      min-height: 1.4em;
+      text-align: center;
+      font-size: 1.05rem;
+      margin-top: 12px;
+      font-weight: 700;
+    }
+
+    .input-label {
+      display: block;
+      text-align: center;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-card">
+    <a class="back-link" href="index.html">← Back to Main Menu</a>
+    <h1>Chinese Math Input Quiz</h1>
+
+    <div class="level-controls" role="group" aria-label="Select level">
+      <button class="level-btn active" type="button" data-level="1" aria-pressed="true">Level 1</button>
+      <button class="level-btn" type="button" data-level="2" aria-pressed="false">Level 2</button>
+      <button class="level-btn" type="button" data-level="3" aria-pressed="false">Level 3</button>
+      <button class="level-btn" type="button" data-level="4" aria-pressed="false">Level 4</button>
+    </div>
+
+    <div id="quizArea" aria-live="polite">
+      <div class="status-row">
+        <div id="currentLevel">Current level: 1</div>
+        <div id="currentScore">Score: 0</div>
+      </div>
+
+      <div id="questionPrompt">一加一？</div>
+
+      <label class="input-label" for="answerInput">Type your answer</label>
+      <div class="input-row">
+        <input id="answerInput" type="text" autocomplete="off" aria-describedby="feedback">
+        <button id="submitBtn" class="action-btn" type="button">Submit</button>
+      </div>
+
+      <div id="feedback"></div>
+      <div style="text-align:center;">
+        <button id="tryAgainBtn" class="action-btn" type="button">Try Again</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const levelRanges = {
+      1: { min: 1, max: 10 },
+      2: { min: 1, max: 10 },
+      3: { min: 10, max: 21 },
+      4: { min: 20, max: 49 }
+    };
+
+    const englishNumberMap = {
+      two: 2,
+      three: 3,
+      four: 4,
+      five: 5,
+      six: 6,
+      seven: 7,
+      eight: 8,
+      nine: 9,
+      ten: 10,
+      eleven: 11,
+      twelve: 12,
+      thirteen: 13,
+      fourteen: 14,
+      fifteen: 15,
+      sixteen: 16,
+      seventeen: 17,
+      eighteen: 18,
+      nineteen: 19,
+      twenty: 20
+    };
+
+    const chineseDigitMap = {
+      '零': 0,
+      '一': 1,
+      '二': 2,
+      '兩': 2,
+      '两': 2,
+      '三': 3,
+      '四': 4,
+      '五': 5,
+      '六': 6,
+      '七': 7,
+      '八': 8,
+      '九': 9
+    };
+
+    let currentLevel = 1;
+    let score = 0;
+    let currentAnswer = 2;
+    let currentQuestion = { a: 1, b: 1 };
+    let advanceTimer = null;
+
+    const levelButtons = Array.from(document.querySelectorAll('.level-btn'));
+    const questionPrompt = document.getElementById('questionPrompt');
+    const currentLevelText = document.getElementById('currentLevel');
+    const currentScoreText = document.getElementById('currentScore');
+    const answerInput = document.getElementById('answerInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const feedback = document.getElementById('feedback');
+    const tryAgainBtn = document.getElementById('tryAgainBtn');
+    const quizArea = document.getElementById('quizArea');
+
+    function toChineseNumeral(n) {
+      if (n < 10) return Object.keys(chineseDigitMap).find(key => chineseDigitMap[key] === n && key !== '兩' && key !== '两');
+      if (n === 10) return '十';
+      if (n < 20) return '十' + toChineseNumeral(n - 10);
+      const tens = Math.floor(n / 10);
+      const units = n % 10;
+      return toChineseNumeral(tens) + '十' + (units ? toChineseNumeral(units) : '');
+    }
+
+    function parseChineseNumeral(text) {
+      if (!text) return NaN;
+      if (text === '十') return 10;
+      if (text.includes('十')) {
+        const [left, right] = text.split('十');
+        const tens = left ? chineseDigitMap[left] : 1;
+        const ones = right ? chineseDigitMap[right] : 0;
+        if (Number.isInteger(tens) && Number.isInteger(ones)) {
+          return tens * 10 + ones;
+        }
+        return NaN;
+      }
+      return Number.isInteger(chineseDigitMap[text]) ? chineseDigitMap[text] : NaN;
+    }
+
+    function parseAnswer(rawValue) {
+      const value = rawValue.trim();
+      if (!value) return NaN;
+
+      const chineseValue = parseChineseNumeral(value);
+      if (!Number.isNaN(chineseValue)) return chineseValue;
+
+      if (currentLevel === 1) {
+        if (/^\d+$/.test(value)) return Number(value);
+        const english = value.toLowerCase().replace(/[-\s]+/g, '');
+        return Number.isInteger(englishNumberMap[english]) ? englishNumberMap[english] : NaN;
+      }
+
+      return NaN;
+    }
+
+    function updateScore() {
+      currentScoreText.textContent = 'Score: ' + score;
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function setQuestion() {
+      const range = levelRanges[currentLevel];
+      const a = randomInt(range.min, range.max);
+      const b = randomInt(range.min, range.max);
+      currentQuestion = { a, b };
+      currentAnswer = a + b;
+      questionPrompt.textContent = toChineseNumeral(a) + '加' + toChineseNumeral(b) + '？';
+    }
+
+    function resetInputState() {
+      answerInput.value = '';
+      answerInput.style.color = '#111';
+      feedback.textContent = '';
+      tryAgainBtn.style.display = 'none';
+    }
+
+    function setLevel(level) {
+      currentLevel = level;
+      score = 0;
+      if (advanceTimer) {
+        clearTimeout(advanceTimer);
+        advanceTimer = null;
+      }
+      currentLevelText.textContent = 'Current level: ' + currentLevel;
+      updateScore();
+      levelButtons.forEach(btn => {
+        const active = Number(btn.dataset.level) === currentLevel;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      resetInputState();
+      setQuestion();
+      answerInput.focus();
+    }
+
+    function handleCorrect() {
+      score += 1;
+      updateScore();
+      answerInput.style.color = 'green';
+      feedback.textContent = 'That is correct';
+      tryAgainBtn.style.display = 'none';
+      submitBtn.disabled = true;
+      answerInput.disabled = true;
+
+      advanceTimer = setTimeout(() => {
+        submitBtn.disabled = false;
+        answerInput.disabled = false;
+        resetInputState();
+        setQuestion();
+        answerInput.focus();
+      }, 1200);
+    }
+
+    function handleIncorrect() {
+      score -= 1;
+      updateScore();
+      answerInput.style.color = 'red';
+      feedback.textContent = 'That is not quite right. Please, try again.';
+      tryAgainBtn.style.display = 'inline-block';
+      answerInput.focus();
+    }
+
+    function submitAnswer() {
+      if (advanceTimer) return;
+      const parsed = parseAnswer(answerInput.value);
+      if (parsed === currentAnswer) {
+        handleCorrect();
+      } else {
+        handleIncorrect();
+      }
+    }
+
+    levelButtons.forEach(btn => {
+      btn.addEventListener('click', () => setLevel(Number(btn.dataset.level)));
+    });
+
+    submitBtn.addEventListener('click', submitAnswer);
+    answerInput.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        submitAnswer();
+      }
+    });
+
+    answerInput.addEventListener('input', () => {
+      if (currentLevel >= 2) {
+        answerInput.value = answerInput.value.replace(/[^零一二兩两三四五六七八九十]/g, '');
+      }
+    });
+
+    tryAgainBtn.addEventListener('click', () => {
+      answerInput.value = '';
+      answerInput.style.color = '#111';
+      feedback.textContent = '';
+      tryAgainBtn.style.display = 'none';
+      answerInput.focus();
+    });
+
+    ['copy', 'cut', 'paste', 'contextmenu'].forEach(eventName => {
+      quizArea.addEventListener(eventName, event => event.preventDefault());
+    });
+
+    quizArea.addEventListener('keydown', event => {
+      const key = event.key.toLowerCase();
+      if ((event.ctrlKey || event.metaKey) && (key === 'c' || key === 'x' || key === 'v')) {
+        event.preventDefault();
+      }
+    });
+
+    setLevel(1);
+  </script>
+</body>
+</html>

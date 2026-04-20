@@ -229,6 +229,8 @@
       '八': 8,
       '九': 9
     };
+    const allowedChineseNumeralChars = '零一二兩两三四五六七八九十';
+    const chineseInputFilterRegex = new RegExp(`[^${allowedChineseNumeralChars}]`, 'g');
 
     let currentLevel = 1;
     let score = 0;
@@ -247,7 +249,12 @@
     const quizArea = document.getElementById('quizArea');
 
     function toChineseNumeral(n) {
-      if (n < 10) return Object.keys(chineseDigitMap).find(key => chineseDigitMap[key] === n && key !== '兩' && key !== '两');
+      if (n < 10) {
+        const singleDigit = Object.keys(chineseDigitMap).find(
+          key => chineseDigitMap[key] === n && key !== '兩' && key !== '两'
+        );
+        return singleDigit || String(n);
+      }
       if (n === 10) return '十';
       if (n < 20) return '十' + toChineseNumeral(n - 10);
       const tens = Math.floor(n / 10);
@@ -380,7 +387,7 @@
 
     answerInput.addEventListener('input', () => {
       if (currentLevel >= 2) {
-        answerInput.value = answerInput.value.replace(/[^零一二兩两三四五六七八九十]/g, '');
+        answerInput.value = answerInput.value.replace(chineseInputFilterRegex, '');
       }
     });
 
